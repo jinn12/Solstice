@@ -1,0 +1,272 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.solstice.trademark.service.TradeMarkService">
+<select id="listCount1" resultType="int" >select count(*) from TB20_310_TM_BIBLIO  </select>
+
+	<select id="selectTmListPage" resultType="TradeMarkVO" parameterType="Hashmap">
+	
+	 <![CDATA[
+      select TB20_310_TM_BIBLIO .* FROM(
+	SELECT * FROM TB20_310_TM_BIBLIO 
+        order by tm_seq  asc
+) TB20_310_TM_BIBLIO 
+ LIMIT #{startRow}, #{endRow}
+   ]]>
+
+
+</select>
+<!-- trademarkList 검색 카운트-->
+<!-- tradeMarkList 검색 갯수 조회 -->
+<select  id="trademarkSearchListCount" resultType="_int" parameterType="Hashmap">
+ select count(*) from TB20_310_TM_BIBLIO 
+  <trim prefix="WHERE" prefixOverrides="AND|OR"> 
+<if test="searchtype=='' and searchtype1=='' and search != null and search!= '' ">
+
+				applicant like CONCAT('%', #{search}, '%') or tm_ko like CONCAT('%', #{search}, '%') or 
+				kipo_no like CONCAT('%', #{search}, '%')
+
+			</if>
+<if test="searchtype=='출원' and searchtype1=='' and search != null and search!= '' ">
+
+				applicant like CONCAT('%', #{search}, '%') or tm_ko like CONCAT('%', #{search}, '%') or 
+				kipo_no like CONCAT('%', #{search}, '%') and legal_status =#{searchtype}
+			</if>
+<if test="searchtype=='공고' and searchtype1=='' and search != null and search!= '' ">
+
+				applicant like CONCAT('%', #{search}, '%') or tm_ko like CONCAT('%', #{search}, '%') or 
+				kipo_no like CONCAT('%', #{search}, '%') and legal_status =#{searchtype}
+			</if>
+<if test="searchtype=='거절' and searchtype1=='' and search != null and search!= '' ">
+
+				applicant like CONCAT('%', #{search}, '%') or tm_ko like CONCAT('%', #{search}, '%') or 
+				kipo_no like CONCAT('%', #{search}, '%') and legal_status =#{searchtype}
+			</if>
+<if test="searchtype=='등록' and searchtype1=='' and search != null and search!= '' ">
+
+				applicant like CONCAT('%', #{search}, '%') or tm_ko like CONCAT('%', #{search}, '%') or 
+				kipo_no like CONCAT('%', #{search}, '%') and legal_status =#{searchtype}
+			</if>
+
+
+			<if test="searchtype=='' and searchtype1=='applicant' and search != null and search!= '' ">
+
+			  applicant like CONCAT('%', #{search}, '%') 
+
+			</if>
+<if test="searchtype=='출원' and searchtype1=='applicant' and search != null and search!= '' ">
+
+			  applicant like CONCAT('%', #{search}, '%') and legal_status =#{searchtype}
+
+			</if>
+<if test="searchtype=='공고' and searchtype1=='applicant' and search != null and search!= '' ">
+
+			  applicant like CONCAT('%', #{search}, '%') and legal_status =#{searchtype}
+
+			</if>
+<if test="searchtype=='거절' and searchtype1=='applicant' and search != null and search!= '' ">
+
+			  applicant like CONCAT('%', #{search}, '%') and legal_status =#{searchtype}
+
+			</if>
+<if test="searchtype=='등록' and searchtype1=='applicant' and search != null and search!= '' ">
+
+			  applicant like CONCAT('%', #{search}, '%') and legal_status =#{searchtype}
+
+			</if>
+<if test="searchtype=='' and searchtype1=='tm_ko' and search != null and search!= '' ">
+
+			  tm_ko like CONCAT('%', #{search}, '%')
+
+			</if>
+<if test="searchtype=='출원' and searchtype1=='tm_ko' and search != null and search!= '' ">
+
+			  tm_ko like CONCAT('%', #{search}, '%') and legal_status =#{searchtype}
+
+			</if>
+<if test="searchtype=='공고' and searchtype1=='tm_ko' and search != null and search!= '' ">
+
+			  tm_ko like CONCAT('%', #{search}, '%') and legal_status =#{searchtype}
+
+			</if>
+<if test="searchtype=='거절' and searchtype1=='tm_ko' and search != null and search!= '' ">
+
+			  tm_ko like CONCAT('%', #{search}, '%') and legal_status =#{searchtype}
+
+			</if>
+<if test="searchtype=='등록' and searchtype1=='tm_ko' and search != null and search!= '' ">
+
+			  tm_ko like CONCAT('%', #{search}, '%') and legal_status =#{searchtype}
+
+			</if>
+<if test="searchtype=='' and searchtype1=='kipo_no' and search != null and search!= '' ">
+
+			  kipo_no like CONCAT('%', #{search}, '%') 
+
+			</if>
+<if test="searchtype=='출원' and searchtype1=='kipo_no' and search != null and search!= '' ">
+
+			  kipo_no like CONCAT('%', #{search}, '%') and kipo_no =#{searchtype}
+
+			</if>
+<if test="searchtype=='공고' and searchtype1=='kipo_no' and search != null and search!= '' ">
+
+			  kipo_no like CONCAT('%', #{search}, '%') and kipo_no =#{searchtype}
+
+			</if>
+
+<if test="searchtype=='거절' and searchtype1=='kipo_no' and search != null and search!= '' ">
+
+			  kipo_no like CONCAT('%', #{search}, '%') and kipo_no =#{searchtype}
+
+			</if>
+
+<if test="searchtype=='등록' and searchtype1=='kipo_no' and search != null and search!= '' ">
+
+			  kipo_no like CONCAT('%', #{search}, '%') and kipo_no =#{searchtype}
+
+			</if>
+
+			</trim>	
+
+</select>
+
+<select resultType="TradeMarkVO" id="selectTmSearchList" parameterType="Hashmap">
+
+
+  select TB20_310_TM_BIBLIO.* FROM(
+	SELECT * FROM TB20_310_TM_BIBLIO
+        order by tm_seq  asc
+) TB20_310_TM_BIBLIO 
+ <trim prefix="WHERE" prefixOverrides="AND|OR"> 
+<if test="searchtype=='' and searchtype1=='' and search != null and search!= '' ">
+
+				applicant like CONCAT('%', #{search}, '%') or tm_ko like CONCAT('%', #{search}, '%') or 
+				kipo_no like CONCAT('%', #{search}, '%')
+
+			</if>
+<if test="searchtype=='출원' and searchtype1=='' and search != null and search!= '' ">
+
+				applicant like CONCAT('%', #{search}, '%') or tm_ko like CONCAT('%', #{search}, '%') or 
+				kipo_no like CONCAT('%', #{search}, '%') and legal_status =#{searchtype}
+			</if>
+<if test="searchtype=='공고' and searchtype1=='' and search != null and search!= '' ">
+
+				applicant like CONCAT('%', #{search}, '%') or tm_ko like CONCAT('%', #{search}, '%') or 
+				kipo_no like CONCAT('%', #{search}, '%') and legal_status =#{searchtype}
+			</if>
+<if test="searchtype=='거절' and searchtype1=='' and search != null and search!= '' ">
+
+				applicant like CONCAT('%', #{search}, '%') or tm_ko like CONCAT('%', #{search}, '%') or 
+				kipo_no like CONCAT('%', #{search}, '%') and legal_status =#{searchtype}
+			</if>
+<if test="searchtype=='등록' and searchtype1=='' and search != null and search!= '' ">
+
+				applicant like CONCAT('%', #{search}, '%') or tm_ko like CONCAT('%', #{search}, '%') or 
+				kipo_no like CONCAT('%', #{search}, '%') and legal_status =#{searchtype}
+			</if>
+
+
+			<if test="searchtype=='' and searchtype1=='applicant' and search != null and search!= '' ">
+
+			  applicant like CONCAT('%', #{search}, '%') 
+
+			</if>
+<if test="searchtype=='출원' and searchtype1=='applicant' and search != null and search!= '' ">
+
+			  applicant like CONCAT('%', #{search}, '%') and legal_status =#{searchtype}
+
+			</if>
+<if test="searchtype=='공고' and searchtype1=='applicant' and search != null and search!= '' ">
+
+			  applicant like CONCAT('%', #{search}, '%') and legal_status =#{searchtype}
+
+			</if>
+<if test="searchtype=='거절' and searchtype1=='applicant' and search != null and search!= '' ">
+
+			  applicant like CONCAT('%', #{search}, '%') and legal_status =#{searchtype}
+
+			</if>
+<if test="searchtype=='등록' and searchtype1=='applicant' and search != null and search!= '' ">
+
+			  applicant like CONCAT('%', #{search}, '%') and legal_status =#{searchtype}
+
+			</if>
+<if test="searchtype=='' and searchtype1=='tm_ko' and search != null and search!= '' ">
+
+			  tm_ko like CONCAT('%', #{search}, '%')
+
+			</if>
+<if test="searchtype=='출원' and searchtype1=='tm_ko' and search != null and search!= '' ">
+
+			  tm_ko like CONCAT('%', #{search}, '%') and legal_status =#{searchtype}
+
+			</if>
+<if test="searchtype=='공고' and searchtype1=='tm_ko' and search != null and search!= '' ">
+
+			  tm_ko like CONCAT('%', #{search}, '%') and legal_status =#{searchtype}
+
+			</if>
+<if test="searchtype=='거절' and searchtype1=='tm_ko' and search != null and search!= '' ">
+
+			  tm_ko like CONCAT('%', #{search}, '%') and legal_status =#{searchtype}
+
+			</if>
+<if test="searchtype=='등록' and searchtype1=='tm_ko' and search != null and search!= '' ">
+
+			  tm_ko like CONCAT('%', #{search}, '%') and legal_status =#{searchtype}
+
+			</if>
+<if test="searchtype=='' and searchtype1=='kipo_no' and search != null and search!= '' ">
+
+			  kipo_no like CONCAT('%', #{search}, '%') 
+
+			</if>
+<if test="searchtype=='출원' and searchtype1=='kipo_no' and search != null and search!= '' ">
+
+			  kipo_no like CONCAT('%', #{search}, '%') and kipo_no =#{searchtype}
+
+			</if>
+<if test="searchtype=='공고' and searchtype1=='kipo_no' and search != null and search!= '' ">
+
+			  kipo_no like CONCAT('%', #{search}, '%') and kipo_no =#{searchtype}
+
+			</if>
+
+<if test="searchtype=='거절' and searchtype1=='kipo_no' and search != null and search!= '' ">
+
+			  kipo_no like CONCAT('%', #{search}, '%') and kipo_no =#{searchtype}
+
+			</if>
+
+<if test="searchtype=='등록' and searchtype1=='kipo_no' and search != null and search!= '' ">
+
+			  kipo_no like CONCAT('%', #{search}, '%') and kipo_no =#{searchtype}
+
+			</if>
+
+			</trim>	
+
+
+LIMIT #{startRow}, #{endRow}
+
+</select>
+
+ <!-- 상표 상세 조회 -->
+   <select id="selectTmDetail" resultType="TradeMarkVO"
+      parameterType="_int">
+      select *
+      from TB20_310_TM_BIBLIO
+      where tm_seq = #{ tm_seq }
+   </select>
+  <!--  
+   <select id="selectNextPrevTm" parameterType="int"
+		resultType="TradeMarkVO">
+		 select TB20_310_TM_BIBLIO.* FROM(
+	SELECT * FROM TB20_310_TM_BIBLIO
+        order by tm_seq  asc
+) TB20_310_TM_BIBLIO where tm_seq = #{ tm_seq }
+		
+	</select> -->
+   
+</mapper>

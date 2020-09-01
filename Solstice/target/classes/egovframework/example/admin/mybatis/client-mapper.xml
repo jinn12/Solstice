@@ -1,0 +1,367 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.solstice.client.service.impl.ClientMapper">
+
+<!-- <resultMap type="ClientVO" id="resultClient">
+
+<id column="com_seq" property="com_seq"/>
+
+
+
+</resultMap>
+ -->
+
+
+	<select id="selectCheckBizNoo" parameterType="String" resultType="int">
+		select count(*) from TB20_200_COMPANY where com_biz_no = #{com_biz_no}
+	</select>
+	
+	<insert id="inserClient" parameterType="ClientVO">
+		insert into TB20_200_COMPANY (
+		com_seq,
+		com_biz_no,
+		com_company_name,
+		kipo_no_list,
+		com_reg_no,
+		staff1_name,
+		staff1_dept,
+		staff1_tel,
+		staff1_email,
+		reg_time,
+		mod_time,
+		staff2_name,
+		staff2_dept,
+		staff2_tel,
+		staff2_email,
+		com_ceo,
+		com_company_name2,
+		com_name_roman1,
+		com_name_roman2,
+		com_name_roman3,
+		demander_keyword,
+		claimee_keyword,
+		start_date,
+		end_date 
+		) values
+		(
+		null,
+		#{com_biz_no},
+		#{com_company_name},
+		#{kipo_no_list},
+		#{com_reg_no},
+		#{staff1_name},
+		#{staff1_dept},
+		#{staff1_tel},
+		#{staff1_email},
+		null,
+		null,
+		#{staff2_name},
+		#{staff2_dept},
+		#{com_company_name2}
+		#{staff2_tel},
+		#{staff2_email},
+		#{com_ceo},
+		null,
+		null,
+		null,
+		null,
+		null,
+		null,
+		null,
+		null );
+		
+	</insert>
+	
+	<!-- Client 갯수 조회 -->
+<select id="listCount" resultType="int" >select count(*) from TB20_200_COMPANY</select>
+	<!-- Client 목록 조회 -->
+	<select id="selectClientList" resultType="ClientVO" parameterType="Hashmap">
+	
+	 <![CDATA[
+SELECT a.com_seq,
+       a.com_biz_no,
+       a.com_company_name,
+       a.kipo_no_list,
+       a.com_reg_no,
+       a.staff1_name,
+       a.staff1_dept,
+       a.staff1_tel,
+       a.staff1_email,
+       a.reg_time,
+       a.mod_time,
+       a.staff2_name,
+       a.staff2_dept,
+       a.staff2_tel,
+       a.staff2_email,
+       a.com_ceo,
+       a.com_company_name2,
+       a.com_name_roman1,
+       a.com_name_roman2,
+       a.com_name_roman3,
+       a.demander_keyword,
+       a.claimee_keyword,
+       a.start_date,
+       a.end_date,
+       a.abc
+FROM (SELECT TB20_200_COMPANY.*, TB20_230_RIVAL.com_seq as abc
+      FROM TB20_200_COMPANY 
+          LEFT JOIN TB20_230_RIVAL
+              ON TB20_200_COMPANY.com_seq = TB20_230_RIVAL.com_seq
+      ORDER BY TB20_200_COMPANY.com_seq ASC) a GROUP BY 
+a.com_seq
+ LIMIT #{startRow},#{endRow}
+
+   ]]>
+
+
+</select>
+	<!-- Client 목록에서 삭제 -->
+ <delete id="deleteClient" parameterType="_int">
+   delete from TB20_200_COMPANY
+   where com_seq = #{com_seq} 
+    </delete>
+
+<!-- Client 검색 갯수 조회 -->
+<select  id="clientSearchListCount" resultType="_int" parameterType="Hashmap">
+
+  select count(*) from TB20_200_COMPANY 
+  <trim prefix="WHERE" prefixOverrides="AND|OR">
+
+             <if test="searchtype=='' and search != null and search!= '' ">
+
+				com_biz_no like CONCAT('%', #{search}, '%') or com_company_name like CONCAT('%', #{search}, '%') or 
+				kipo_no_list like CONCAT('%', #{search}, '%')
+
+			</if>
+
+			<if test="searchtype=='com_biz_no' and search != null and search!= '' ">
+
+			  com_biz_no like CONCAT('%', #{search}, '%')
+
+			</if>
+
+			<if test="searchtype=='com_company_name' and search != null and search != '' ">
+
+				com_company_name like CONCAT('%', #{search}, '%')
+
+			</if>
+
+			<if test="searchtype=='kipo_no_list' and search != null and search != '' ">
+
+				kipo_no_list like CONCAT('%', #{search}, '%')
+
+			</if>	
+
+		</trim>
+  
+
+</select>
+<!-- Client 검색  조회 -->
+<select resultType="ClientVO" id="selectClientSearchList" parameterType="Hashmap">
+
+
+ 
+      select TB20_200_COMPANY.* FROM(
+	SELECT * FROM TB20_200_COMPANY
+        order by com_seq  asc
+) TB20_200_COMPANY 
+<trim prefix="WHERE" prefixOverrides="AND|OR">
+                  <if test="searchtype== null and search != null and search!= '' ">
+                  com_biz_no like CONCAT('%', #{search}, '%') or com_company_name like CONCAT('%', #{search}, '%') or 
+				kipo_no_list like CONCAT('%', #{search}, '%')
+                  </if>
+              
+
+             <if test="searchtype=='' and search != null and search!= '' ">
+
+				com_biz_no like CONCAT('%', #{search}, '%') or com_company_name like CONCAT('%', #{search}, '%') or 
+				kipo_no_list like CONCAT('%', #{search}, '%')
+
+			</if>
+
+			<if test="searchtype=='com_biz_no' and search != null and search!= '' ">
+
+				com_biz_no like CONCAT('%', #{search}, '%')
+
+			</if>
+
+			<if test="searchtype=='com_company_name' and search != null and search != '' ">
+
+				 com_company_name like CONCAT('%', #{search}, '%')
+
+			</if>
+
+			<if test="searchtype=='kipo_no_list' and search != null and search != '' ">
+
+				 kipo_no_list like CONCAT('%', #{search}, '%')
+
+			</if>	
+
+		</trim>
+
+		LIMIT #{startRow}, #{endRow}
+
+
+
+
+
+</select>
+
+  <!-- 고객 상세 조회 -->
+   <select id="selectClientDetail" resultType="ClientVO"
+      parameterType="_int">
+      select *
+      from TB20_200_COMPANY
+      where com_seq = #{ com_seq }
+   </select>
+   
+   <!-- Client 상세보기에서 삭제 -->
+ <delete id="deleteDetailClient" parameterType="_int">
+   delete from TB20_200_COMPANY
+   where com_seq = #{com_seq} 
+    </delete>
+    <!-- client 수정페이지 이동 -->
+    <select id="moveUpdateClient" resultType="ClientVO">
+		select * from TB20_200_COMPANY where com_seq = #{com_seq}
+	</select>
+	
+	<!--client 수정  -->
+<update parameterType="ClientVO" id="updateMyClient">
+update TB20_200_COMPANY set
+ com_biz_no = #{com_biz_no}, 
+ com_reg_no = #{com_reg_no}, 
+ com_company_name = #{com_company_name},
+ com_company_name2 = #{com_company_name2}, 
+ staff1_name = #{staff1_name},
+ staff1_tel = #{staff1_tel},
+ staff1_email = #{staff1_email},
+ staff2_name = #{staff2_name},
+ staff2_tel = #{staff2_tel},
+ staff2_email = #{staff2_email},
+ kipo_no_list = #{kipo_no_list}
+ where com_seq = #{com_seq}
+</update>
+
+<!-- 해당 고객의 라이벌 수 카운트 -->
+ <select id="rivaCount" resultType="_int" parameterType="ClientVO">
+		SELECT COUNT(*)
+
+FROM TB20_200_COMPANY a
+
+INNER JOIN TB20_230_RIVAL b ON  a.com_seq = b.com_seq where b.com_seq = #{com_seq}; 
+	</select>
+   
+
+<!-- 해당 고객의 라이벌 리스트 출력 -->
+    <select id="selectClientForRivaList1" resultType="ClientVO" parameterType="Hashmap">
+	SELECT * FROM  TB20_230_RIVAL b INNER JOIN TB20_200_COMPANY a  ON  a.com_seq = b.com_seq where b.com_seq = #{com_seq};
+</select>
+
+<!-- 해당 고객의 라이벌 리스트 출력 -->
+    <select id="selectClientForRivaList" resultType="ClientVO" parameterType="Hashmap">
+	 <![CDATA[
+SELECT * FROM  TB20_230_RIVAL b INNER JOIN TB20_200_COMPANY a  ON  a.com_seq = b.com_seq where b.com_seq = #{com_seq}
+ LIMIT #{startRow},#{endRow}
+
+   ]]>
+</select>
+
+<!-- 고객관리에서 경쟁사 상세보기 -->
+<!-- 고객의 경쟁사 상세 조회 -->
+   <select id="selectclientForRivaDetail" resultType="ClientVO"
+      parameterType="_int">
+      select *
+      from TB20_230_RIVAL
+      where rival_seq = #{ rival_seq }
+   </select>
+   
+   <!-- 고객관리에서 경쟁사 상세보기에서 경쟁사 삭제하기 -->
+    <delete id="deleteDetailClientOfRival" parameterType="_int">
+   delete from TB20_230_RIVAL
+   where rival_seq = #{rival_seq} 
+    </delete>
+    
+    
+     <!-- 고객 목록에서 경쟁사  삭제하기 -->
+    <delete id="deleteClientOfRiva" parameterType="_int">
+   delete from TB20_230_RIVAL
+   where rival_seq = #{rival_seq} 
+    </delete>
+    
+    <!-- 고객이 경쟁사 등록하기 위해 이동-->
+  <!-- 해당 고객의 라이벌 리스트 출력 -->
+<!--    <select id="selectClientForRivaList1" resultType="RivaVO" parameterType="RivaVO" >
+	SELECT * FROM  TB20_230_RIVAL b INNER JOIN TB20_200_COMPANY a  ON  a.com_seq = b.com_seq where b.com_seq = #{com_seq};
+</select>  -->
+
+    
+    <insert id="insertRivaOfClient" parameterType="ClientVO">
+		insert into TB20_230_RIVAL(
+		rival_seq,
+		rival_company_name,
+		rival_biz_no,
+		rival_ceo,
+		rival_kipo_no_list,
+		rival_reg_time,
+		rival_mod_time,
+		com_seq,
+		rival_reg_no,
+		rival_company_name2,
+		demander_keyword,
+		claimee_keyword
+		
+		) values(
+		null,
+		#{rival_company_name},
+		#{rival_biz_no},
+		#{rival_ceo},
+		#{rival_kipo_no_list},
+		null,
+		null,
+		#{com_seq},
+		#{rival_reg_no},
+		null,
+		#{demander_keyword},
+	    #{claimee_keyword}
+		);
+		
+	</insert>
+	
+	<!-- 해당 고객의 상표 수 카운트 -->
+ <select id="tmCount" resultType="_int" parameterType="ClientVO">
+ select count(tm_seq) from  TB20_240_TM_MATCH where com_seq = #{com_seq};
+	</select>
+
+<!-- 해당 고객이 상표 목록 조회 -->
+	<select id="selectClientForTmList" resultType="ClientVO" parameterType="Hashmap">
+	
+	 <![CDATA[
+	 select * from TB20_200_COMPANY a left join  TB20_240_TM_MATCH b
+  on a.com_seq = b.com_seq
+  left join TB20_310_TM_BIBLIO c
+  on b.tm_seq = c.tm_seq where b.com_seq = #{com_seq} and c.kipo_no = #{kipo_no}
+ LIMIT #{startRow},#{endRow}
+
+   ]]>
+
+</select>
+
+ <select id="selectClientOfTmDetail" resultType="ClientVO"
+      parameterType="_int">
+       select * from TB20_200_COMPANY a left join  TB20_240_TM_MATCH b
+  on a.com_seq = b.com_seq
+  left join TB20_310_TM_BIBLIO c
+  on b.tm_seq = c.tm_seq where c.tm_seq = #{tm_seq} and b.com_seq = #{com_seq};
+   </select>
+   
+   <!-- 고객의 상표를 특허고객번호로 카운트 -->
+    <select id="clientKipoCount" resultType="_int" parameterType="ClientVO">
+ select count(kipo_no) from TB20_200_COMPANY  a left join TB20_240_TM_MATCH b
+   on a.com_seq = b.com_seq
+  left join TB20_310_TM_BIBLIO c
+  on b.tm_seq = c.tm_seq where c.kipo_no = #{kipo_no} and b.com_seq =#{com_seq}
+	</select>
+   
+   
+	
+</mapper>

@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.solstice.tradename.service.TradeNameService">
+
+<!-- tradenamekList 검색 카운트-->
+<!-- tradeMarkList 검색 갯수 조회 -->
+<select  id="tradenameSearchListCount" resultType="_int" parameterType="Hashmap">
+ select count(*) from TB20_510_BRAND 
+  <trim prefix="WHERE" prefixOverrides="AND|OR"> 
+<if test="searchtype=='' and search != null and search!= '' ">
+
+				brand_name like CONCAT('%', #{search}, '%') or biz_no like CONCAT('%', #{search}, '%') or 
+				ceo like CONCAT('%', #{search}, '%')
+
+			</if>
+<if test="searchtype=='brand_name' and search != null and search!= '' ">
+
+				brand_name like CONCAT('%', #{search}, '%') 
+			
+			</if>
+<if test="searchtype=='biz_no' and search != null and search!= '' ">
+
+				biz_no like CONCAT('%', #{search}, '%') 
+			
+			</if>
+<if test="searchtype=='ceo' and search != null and search!= '' ">
+
+					ceo like CONCAT('%', #{search}, '%') 
+				
+			</if>
+
+
+			</trim>	
+
+</select>
+
+<select resultType="TradeNameVO" id="selectTnSearchList" parameterType="Hashmap">
+
+
+  select TB20_510_BRAND.* FROM(
+	SELECT * FROM TB20_510_BRAND
+        order by brand_seq  asc
+) TB20_510_BRAND
+ <trim prefix="WHERE" prefixOverrides="AND|OR"> 
+<if test="searchtype=='' and search != null and search!= '' ">
+
+				brand_name like CONCAT('%', #{search}, '%') or biz_no like CONCAT('%', #{search}, '%') or 
+				ceo like CONCAT('%', #{search}, '%')
+
+			</if>
+<if test="searchtype=='brand_name' and search != null and search!= '' ">
+
+				brand_name like CONCAT('%', #{search}, '%') 
+			
+			</if>
+<if test="searchtype=='biz_no' and search != null and search!= '' ">
+
+				biz_no like CONCAT('%', #{search}, '%') 
+			
+			</if>
+<if test="searchtype=='ceo' and search != null and search!= '' ">
+
+					ceo like CONCAT('%', #{search}, '%') 
+				
+			</if>
+
+
+			</trim>	
+
+LIMIT #{startRow}, #{endRow}
+
+</select>
+
+ <!-- 상표 상세 조회 -->
+   <select id="selectTnDetail" resultType="TradeNameVO" 
+      parameterType="_int">
+      select *
+      from TB20_510_BRAND
+      where brand_seq = #{ brand_seq }
+   </select>
+  
+   
+</mapper>

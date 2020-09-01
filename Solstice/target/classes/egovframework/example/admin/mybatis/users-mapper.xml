@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.solstice.users.service.impl.UsersMapper">
+
+
+  <select id="selectUsersLogin" resultType="UsersVO">
+	      SELECT *
+		  FROM TB20_100_USER
+		  WHERE user_email = #{user_email} AND user_pw = #{user_pw} AND user_auth = 'USER';
+		   
+	</select>
+	
+	<select id="selectCheckEmail" parameterType="String" resultType="int">
+		select count(*) from TB20_100_USER where user_email = #{user_email}
+	</select>
+	
+	<insert id="insertUsers" parameterType="UsersVO">
+		insert into TB20_100_USER (user_seq,user_email,user_name,user_auth,reg_time,mod_time,pw_mod_time,user_pw) values
+		(null,#{user_email},#{user_name},#{user_auth},null,null,null,#{user_pw});
+		
+	</insert>
+	<select id="moveMyPageEdit" resultType="com.solstice.users.service.UsersVO">
+		select * from TB20_100_USER where user_email = #{user_email}
+	</select>
+	
+<update id="updateMyPage" parameterType="UsersVO" >
+		update TB20_100_USER
+		<trim prefix="set" suffixOverrides=",">
+			<if test="user_pw != null">user_pw = #{user_pw},</if>
+			
+			<if test="user_email != null">user_email = #{user_email},</if>
+		
+		</trim>
+		where user_seq = #{user_seq}
+	</update> 
+</mapper>

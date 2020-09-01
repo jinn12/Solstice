@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?> 
+<beans xmlns="http://www.springframework.org/schema/beans" 
+xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+xmlns:context="http://www.springframework.org/schema/context"
+xmlns:task="http://www.springframework.org/schema/task"
+xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd 
+http://www.springframework.org/schema/jdbc http://www.springframework.org/schema/jdbc/spring-jdbc-3.0.xsd
+http://www.springframework.org/schema/task http://www.springframework.org/schema/task/spring-task-4.3.xsd
+http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.3.xsd">
+
+
+
+<!-- 	<jdbc:embedded-database id="dataSource" type="HSQL"> -->
+<!-- 		<jdbc:script location= "classpath:/db/sampledb.sql"/> -->
+<!-- 	</jdbc:embedded-database> -->
+	
+    
+<!--      Mysql     -->
+<!--     <bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource" destroy-method="close"> -->
+<!--         <property name="driverClassName" value="com.mysql.jdbc.Driver"/> -->
+<!--         <property name="url" value="jdbc:mysql://kt5.junesoft.net:4/sh_test" /> -->
+<!--         <property name="username" value="root"/> -->
+<!--         <property name="password" value="Jsoft@048"/> -->
+<!--     </bean> -->
+	
+	<!-- 데이터베이스 연결을 담당하는 객체를 등록 - DriverManagerDataSource   :MySQL  -->
+    <bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource">
+        <property name="driverClassName" value="${database.driver}"/>
+        <property name="url" value="${database.url}"/>
+        <property name="username" value="${database.username}"/>
+        <property name="password" value="${database.password}"/>
+    </bean>
+
+
+	<!-- DBCP용 연결 도구 설정- common-dbcp2가 필요함  -->
+	<bean id="dbcpSource" class="org.apache.commons.dbcp2.BasicDataSource">
+        <property name="driverClassName" value="${database.driver}"/>
+        <property name="url" value="${database.url}"/>
+        <property name="username" value="${database.username}"/>
+        <property name="password" value="${database.password}"/>
+		<property value="${database.dbcp.max-total}" name="maxTotal"/>
+		<property value="${database.dbcp.max-idle}" name="maxIdle"/>
+		<property value="${database.dbcp.max-wait}" name="maxWaitMillis"/>
+	</bean>
+	
+	<!-- 
+		데이터베이스 명령 처리기를 등록
+		- JdbcTemplate
+		- 연결객체를 주입하면 자동으로 실행시 연결 및 종료를 수행
+	 -->
+	<bean id="jdbcTemplate" class="org.springframework.jdbc.core.JdbcTemplate">
+		<property name="dataSource" ref="dbcpSource"></property>
+	</bean>
+	 
+	<!-- SqlSession setup for MyBatis Database Layer -->
+	<bean id="sqlSession" class="org.mybatis.spring.SqlSessionFactoryBean">
+		<property name="dataSource" ref="dbcpSource" />
+		<property name="configLocation" value="${path.mybatis.config-location}" />
+		<property name="mapperLocations" value="${path.mybatis.mapper-location}" />
+		
+	</bean>
+
+
+	
+	<bean id="sqlSessionTemplate" class="org.mybatis.spring.SqlSessionTemplate">
+	 	<constructor-arg index="0" ref="sqlSession"></constructor-arg>
+	 </bean>
+
+
+<context:property-placeholder location="classpath:/egovframework/properties/*.properties"/>
+
+     <task:annotation-driven/>
+
+</beans>

@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE configuration PUBLIC "-//mybatis.org//DTD Config 3.0//EN" "http://mybatis.org/dtd/mybatis-3-config.dtd">
+
+<configuration>
+    <typeAliases>
+		<typeAlias alias="egovMap" type="egovframework.rte.psl.dataaccess.util.EgovMap"/>
+		<typeAlias alias="searchVO" type="egovframework.example.sample.service.SampleDefaultVO"/>
+		<typeAlias alias="sampleVO" type="egovframework.example.sample.service.SampleVO"/>
+		<typeAlias alias="AdminVO" type="com.solstice.admin.service.AdminVO"/>
+		<typeAlias alias="UsersVO" type="com.solstice.users.service.UsersVO"/>
+		<typeAlias alias="ClientVO" type="com.solstice.client.service.ClientVO"/>
+		<typeAlias alias="RivaVO" type="com.solstice.client.service.RivaVO"/>
+		<typeAlias alias="TradeMarkVO" type="com.solstice.trademark.service.TradeMarkVO"/>
+		<typeAlias alias="TradeNameVO" type="com.solstice.tradename.service.TradeNameVO"/>
+		<typeAlias alias="RivalVO" type="com.solstice.rival.service.RivalVO"/>
+		<typeAlias alias="NoticeVO" type="com.solstice.notice.service.NoticeVO"/>
+	
+
+
+    </typeAliases>
+</configuration>

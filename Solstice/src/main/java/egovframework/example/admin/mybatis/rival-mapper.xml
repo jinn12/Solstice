@@ -1,0 +1,205 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.solstice.rival.service.RivalService">
+
+ <!-- Client 갯수 조회 -->
+<select id="rivalCount" resultType="int" >select count(*) from TB20_230_RIVAL</select>
+	<!-- Client 목록 조회 -->
+	<select id="selectRivalList" resultType="RivalVO" parameterType="Hashmap">
+	
+	 <![CDATA[
+select TB20_230_RIVAL.* FROM(
+	SELECT * FROM TB20_230_RIVAL
+        order by rival_seq  asc
+) TB20_230_RIVAL
+LIMIT #{startRow},#{endRow}
+
+   ]]>
+
+
+</select>
+
+<!-- Rival 검색 갯수 조회 -->
+<select  id="rivalSearchListCount" resultType="_int" parameterType="Hashmap">
+
+  select count(*) from TB20_230_RIVAL
+  <trim prefix="WHERE" prefixOverrides="AND|OR">
+
+             <if test="searchtype=='' and search != null and search!= '' ">
+
+				rival_company_name like CONCAT('%', #{search}, '%') or rival_ceo like CONCAT('%', #{search}, '%') or 
+				rival_kipo_no_list like CONCAT('%', #{search}, '%')
+
+			</if>
+
+			<if test="searchtype=='rival_company_name ' and search != null and search!= '' ">
+
+			  rival_company_name  like CONCAT('%', #{search}, '%')
+
+			</if>
+
+			<if test="searchtype=='rival_ceo' and search != null and search != '' ">
+
+				rival_ceo like CONCAT('%', #{search}, '%')
+
+			</if>
+
+			<if test="searchtype=='rival_kipo_no_list' and search != null and search != '' ">
+
+				rival_kipo_no_list like CONCAT('%', #{search}, '%')
+
+			</if>	
+
+		</trim>
+  
+
+</select>
+<!-- Rival 검색  조회 -->
+<select resultType="RivalVO" id="selectRivalSearchList" parameterType="Hashmap">
+
+
+ 
+      select TB20_230_RIVAL.* FROM(
+	SELECT * FROM TB20_230_RIVAL
+        order by rival_seq  asc
+) TB20_230_RIVAL
+<trim prefix="WHERE" prefixOverrides="AND|OR">
+                  <if test="searchtype== null and search != null and search!= '' ">
+                  rival_company_name like CONCAT('%', #{search}, '%') or rival_ceo like CONCAT('%', #{search}, '%') or 
+				rival_kipo_no_list like CONCAT('%', #{search}, '%')
+                  </if>
+              
+
+             <if test="searchtype=='' and search != null and search!= '' ">
+
+				 rival_company_name like CONCAT('%', #{search}, '%') or rival_ceo like CONCAT('%', #{search}, '%') or 
+				rival_kipo_no_list like CONCAT('%', #{search}, '%')
+
+			</if>
+
+			<if test="searchtype=='rival_company_name' and search != null and search!= '' ">
+
+				rival_company_name like CONCAT('%', #{search}, '%')
+
+			</if>
+
+			<if test="searchtype=='rival_ceo' and search != null and search != '' ">
+
+				 rival_ceo like CONCAT('%', #{search}, '%')
+
+			</if>
+
+			<if test="searchtype=='rival_kipo_no_list' and search != null and search != '' ">
+
+				 rival_kipo_no_list like CONCAT('%', #{search}, '%')
+
+			</if>	
+
+		</trim>
+
+		LIMIT #{startRow}, #{endRow}
+</select>
+ <select id="selectRivaDetail" resultType="RivalVO"
+      parameterType="_int">
+    select *
+      from TB20_230_RIVAL
+      where rival_seq = #{ rival_seq }
+   </select>
+   
+   <!-- 경쟁사 목록에서 경쟁사 삭제하기  -->
+   <delete id="deleteRival" parameterType="_int">
+   delete from TB20_230_RIVAL
+   where rival_seq = #{ rival_seq }
+    </delete>
+    
+    <!-- 경쟁사 등록하기 -->
+    <insert id="insertRival" parameterType="RivalVO">
+		insert into TB20_230_RIVAL(
+		rival_seq,
+		rival_company_name,
+		rival_biz_no,
+		rival_ceo,
+		rival_kipo_no_list,
+		rival_reg_time,
+		rival_mod_time,
+		com_seq,
+		rival_reg_no,
+		rival_company_name2,
+		demander_keyword,
+		claimee_keyword
+		
+		) values(
+		null,
+		#{rival_company_name},
+		#{rival_biz_no},
+		#{rival_ceo},
+		#{rival_kipo_no_list},
+		null,
+		null,
+		null,
+		#{rival_reg_no},
+		null,
+		#{demander_keyword},
+	    #{claimee_keyword}
+		);
+		
+	</insert>
+	<!--경쟁사 수정  -->
+	<update parameterType="RivalVO" id="updateMyRival">
+update TB20_230_RIVAL set
+ 
+ rival_company_name = #{rival_company_name}, 
+ rival_biz_no = #{rival_biz_no}, 
+ rival_ceo = #{rival_ceo},
+ rival_kipo_no_list = #{rival_kipo_no_list}, 
+ rival_reg_time = #{rival_reg_time},
+ rival_mod_time = #{rival_mod_time},
+ rival_reg_no = #{rival_reg_no},
+ rival_company_name2 = #{rival_company_name2},
+ demander_keyword = #{demander_keyword},
+ claimee_keyword = #{claimee_keyword}
+ where rival_seq = #{rival_seq}
+</update>
+<!-- 경쟁사 상세보기에서 삭제 -->
+<delete id="deleteDetailRival" parameterType="_int">
+   delete from TB20_230_RIVAL
+   where rival_seq = #{rival_seq} 
+    </delete>
+    <!-- 경쟁사의 상표수 카운트 -->
+    <select id="rivaltmCount" resultType="_int" parameterType="RivalVO">
+ select count(tm_seq) from  TB20_250_RIVAL_MATCH where rival_seq = #{rival_seq}
+	</select>
+	
+	<!-- 경쟁사의 상표를 특허고객번호로 카운트 -->
+    <select id="rivalKipoCount" resultType="_int" parameterType="RivalVO">
+ select count(kipo_no) from TB20_230_RIVAL a left join  TB20_250_RIVAL_MATCH b
+  on a.rival_seq = b.rival_seq
+  left join TB20_310_TM_BIBLIO c
+  on b.tm_seq = c.tm_seq where c.kipo_no = #{kipo_no} and b.rival_seq =#{rival_seq}
+	</select>
+	
+	<!-- 해당 경쟁사의 상표 목록 조회 -->
+	<select id="selectRivalForTmList" resultType="RivalVO" parameterType="Hashmap">
+	
+	 <![CDATA[ 
+  select * from TB20_230_RIVAL a left join  TB20_250_RIVAL_MATCH b
+  on a.rival_seq = b.rival_seq
+  left join TB20_310_TM_BIBLIO c
+  on b.tm_seq = c.tm_seq where c.kipo_no = #{kipo_no} and a.rival_seq = #{rival_seq}
+ LIMIT #{startRow},#{endRow}
+   ]]>
+
+
+</select>
+   <!-- 해당 경쟁사의 상표 상세보기 -->	
+	<select id="selectRivalOfTmDetail" resultType="RivalVO"
+      parameterType="_int">
+       select * from TB20_230_RIVAL a left join  TB20_250_RIVAL_MATCH b
+    on a.rival_seq = b.rival_seq
+  left join TB20_310_TM_BIBLIO c
+  on b.tm_seq = c.tm_seq where c.tm_seq = #{tm_seq} and a.rival_seq = #{rival_seq}
+   </select>
+	
+    
+</mapper>
