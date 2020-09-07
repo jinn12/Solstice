@@ -11,70 +11,39 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/semantic-ui@2.4.2/dist/semantic.min.js"></script>
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/semantic-ui@2.4.2/dist/semantic.min.css">
- <style>
-
-  
- a:link { color: black; text-decoration: none;}
-
-.help{
-font-size:15px;
-border-top: 1px solid grey;
-margin-top: 20px;
-
-}
-.ClientSearchBox1{
-border-bottom:3px solid black;
-margin-right: 200px;
-width: 50%;
-/* box-shadow: 0px 0px 20px 10px rgba(0.2,0,0,0.4); */
-}
-.count {
-margin-left: 1990px;
-}
-.clientTable{
-margin-left: 500px;
-}
-.gotowrite{
-width: 152px;
-margin-left: 820px;
-margin-top: 9px;
-}
-.paging{text-align: center; margin-top: 30px; margin-right:300px;}
-.page{border: 1px solid black; background: black;
-   	   color: white; padding: 3px 10px 3px 10px; border-radius: 6px;font-weight: bold;}
-.pre_page, .next_page{border: 1px solid rgb(244, 244, 244); background: rgb(244, 244, 244);
-   	   color: #3e3e3e; padding: 3px 10px 3px 10px; border-radius: 6px;font-weight: bold;    display: inline-block;}
-</style>
-
 </head>
 <body>
-<p style="font-size: 20pt; padding-top:50px; color:#373737; text-align:center;">공지사항</p>
-<body>
+<div id="content">
+<!-- 제목 -->
+<div class="title_area">
+<span>기본정보</span><i class="fas fa-caret-right"></i><span>공지사항</span>
+</div>
 <!-- 검색창시작 -->
-	<div align="center">
-			<div class="ClientSearchBox1" style="height: 130px;">
-			<form action="selectNoticeSearchList.do"method="get">
-			
-                <a class="ui large black label">공지사항 검색</a>&ensp;
-					<div class="ui input"><input type="text" name="search" style="width:340px; height:30px;"></div>&ensp;
-			 <br><br>
-			   <a class="ui large black label">분류</a>&emsp;&emsp;
-           <input type="radio" name="searchtype" value="" ><label>전체</label>&emsp;&emsp; 
-             <input type="radio" name="searchtype" value="notice_title"><label>&ensp;제목별</label>&emsp;&emsp;
-               <input type="radio" name="searchtype" value="notice_writer"><label>&ensp;작성자</label>&emsp;&emsp; 
-               <input type="radio" name="searchtype" value="notice_write_time"><label>&ensp;날짜</label>&emsp;&emsp;&emsp;
-			
-				
-					<div class="ui buttons"><button class="ui small black button" type="submit">검색</button></div> 
-			</form>
-				<div class="gotowrite"><button class="ui middle black button"  onclick="location.href='moveInsertNotice.do'">
-		<i class="edit outline icon"></i>공지사항등록</button></div>
+	<div class="search_area">
+			<form action="selectNoticeSearchList.do" method="get">
+			<div class="label_area">
+				<label class="label">분류</label>
+           		<input type="radio" name="searchtype" value="" id="radio1"><label for="radio1">전체</label>
+                <input type="radio" name="searchtype" value="notice_title" id="radio2"><label for="radio2">제목별</label>
+                <input type="radio" name="searchtype" value="notice_writer" id="radio3"><label for="radio3">작성자</label>
+                <input type="radio" name="searchtype" value="notice_write_time" id="radio4"><label for="radio4">날짜</label>
 			</div>
-		</div>  
-<div class = "count">총:${listCount}</div>
-<table class="ui celled table">
+                <input class="form-control" type="text" name="search">
+			    <button class="btn btn-search" type="submit"><i class="fas fa-search"></i>검색</button>
+			</form>
+	</div>  
+<div class="table_area">
+<table class="table">
+<colgroup>
+		<col width="10%"/>
+		<col style="text-align: left;"/>
+		<col width="20%"/>
+		<col width="15%"/>
+		<col width="8%"/>
+</colgroup>
   <thead>
-    <tr><th>공지사항 일련번호</th>
+    <tr>
+    <th>공지사항 일련번호</th>
     <th>공지사항 제목</th>
     <th>작성자</th>
     <th>작성시간</th>
@@ -89,7 +58,7 @@ margin-top: 9px;
     <tr>
    
       <td data-label="Name">${notice.notice_seq}</td>
-      <td data-label="Age"><a href="${ ndt }">${notice.notice_title }</a></td>
+      <td data-label="Age" class="textLeft"><a href="${ ndt }">${notice.notice_title }</a></td>
       <td data-label="Job">${notice.notice_writer }</td>
       <td data-label="Job">
       
@@ -108,30 +77,42 @@ margin-top: 9px;
  </c:forEach>
   </tbody>
 </table>
+
+<div class="table_footer">
+	<div class="total_count"><span>전체 : <strong>${listCount}</strong>건</span></div>
+	<!-- //페이징 -->
+	<div class ="pagination" >
+		<!-- 맨 처음 페이지 -->
+		<c:if test="${requestScope.currentPage le 1 }"><a class="page-prev page-link"><i class="fas fa-chevron-left"></i></a></c:if>
+		<c:if test="${requestScope.currentPage gt 1 }"><a href="noticeList.do" class="page-prev page-link"><i class="fas fa-chevron-left"></i></a></c:if>
 		
-<!-- 맨 처음 페이지 -->
-<div class ="paging" >
-<c:if test="${requestScope.currentPage le 1 }"><p class="pre_page"><<</p></c:if>
-<c:if test="${requestScope.currentPage gt 1 }"><a href="noticeList.do"><p class="pre_page"><<</p></a></c:if>
+		<c:forEach var="p" begin="${requestScope.startPage }" end="${requestScope.endPage }" step="1">
+   		<c:if test="${p eq requestScope.currentPage }">      
+      	<a class="page-item active"><span class="page-link">${ p }</span></a>
+   		</c:if>
+   		<c:if test="${p ne requestScope.currentPage }"><a href="noticeList.do?page=${ p }"  class="page-link">${ p }</a></c:if>
+		</c:forEach>
 
-<c:forEach var="p" begin="${requestScope.startPage }" end="${requestScope.endPage }" step="1">
-   <c:if test="${p eq requestScope.currentPage }">      
-      <font><b class="page">${ p }</b></font>
-   </c:if>
-   <c:if test="${p ne requestScope.currentPage }"><a href="noticeList.do?page=${ p }"><p class="pre_page" style="margin:0px 2px 0px 2px">${ p }</p></a></c:if>
-</c:forEach>
+		<!-- 맨 마지막페이지 -->
+		<c:if test="${currentPage ge maxPage }"><a class="page-next page-link"><i class="fas fa-chevron-right"></i></a></c:if>
+		<c:if test="${currentPage lt maxPage }"><a class="page-next page-link" href="noticeList.do?page=${ requestScope.maxPage }"><i class="fas fa-chevron-right"></i></a></c:if>  
+	</div>
+</div>	
 
-<!-- 맨 마지막페이지 -->
-<c:if test="${currentPage ge maxPage }"><p class="next_page">>></p></c:if>
-<c:if test="${currentPage lt maxPage }"><a class="next_page" href="noticeList.do?page=${ requestScope.maxPage }">>></a></c:if>  
+</div>		
 
-</div>
-<!-- //페이징 -->
-</body>
-<div class = "help">
-<p><p>
-[도움말]<p>
+<div class="btn_group">
+<button class="btn"  onclick="location.href='moveInsertNotice.do'">
+<i class="edit outline icon"></i>공지사항 등록
+</button></div>
+
+
+<div class="tip_area">
+<h6><i class="fas fa-info-circle"></i>&nbsp;도움말</h6>
 [1] 공지사항은 관리자만 글을 쓰고, 분석원이 참고하는 기능입니다.
-
 </div>
+</div>
+
+
+</body>
 </html>

@@ -42,83 +42,94 @@
 		
 		</script>
 <style>
-
+body{height: auto;}
 #loginSection{
-	position: absolute;
+	/* position: absolute;
 	top: 50%;
-	left: 50%;
-	width: 400px;
-	height: 420px;
-	overflow: hidden;
+	left: 50%; */
+	width: 500px;
+	/* height: 420px; 
+	overflow: hidden;*/
 	background-color: #fff;
-	margin-top: -200px;
-	margin-left: -200px;
+/* 	margin-left: -200px; */
 	text-align: center;
 	color: #808080;
-	line-height: 5px;
+	/* line-height: 5px; */
+	margin: 0 auto;
+	margin-top:8%;
 }
+#loginSection .input,#loginSection .button{width: 80%;} 
+#loginSection .title{
+    margin-bottom: 60px;
+    width:100%;
+}
+#loginSection .field{
+	margin-bottom: 15px;
+}
+.warning{
+	clear: both;
+	margin-bottom: 20px;
+}
+.warning p{
+	color:#CF522A;
+	font-size: 24px;
+}
+.tips{text-align: left; background: #efefef; padding: 15px 20px; opacity: 0.8; letter-spacing: -0.5px; width: 80%; margin: 0 auto;margin-top:40px;  font-size: 12px;}
 
 
-}
-::placeholder
+/* ::placeholder
 {
   font-size: 1.3em;
-  font-family: 'Nanum Brush Script', cursive;
-}
-
+  font-family: 'Nanum Brush Script', cursive;  
+} 
+ */
 
 </style>
-
+   
 </head>
 <body>
 
       <!-- 상단 메뉴 바 -->
-     
+      
       <!-- 로그인 폼 CSS -->
      <div id="loginSection">
-      
-        <c:if test="${!empty loginFail }">
-<p style="font-size: 20pt; padding-top:20px; color:#373737;">로그인 실패!</p>
-
-</c:if>
-<c:if test="${!empty userFail }">
-<p style="font-size: 20pt; padding-top:20px; color:#373737;">분석가가 아닙니다!</p>
-
-</c:if>
+     <div class="title">
+     <span style="font-weight: bold; font-size: 42px; /* background: #005bab; */ letter-spacing: -0.5px; padding:12px 34px; color: #005bab; display: block; margin-bottom: 24px">Solstice</span>
+     <span style="font-size: 18px; color: #545454; letter-spacing: -1px; margin-top: 10px;  font-weight: bold;">상표권 침해권리 지원서비스</span>
+     <span style="font-size: 18px; border-left: 2px solid #F28496; text-align: left; color: #F28496; padding-left: 12px; margin-left: 12px;font-weight: bold;letter-spacing: -1px;">분석가 시스템</span>
+     </div> 
+     
+     <div class="warning">
+     <c:if test="${!empty loginFail }">  
+	 <p>로그인 실패!</p>  
+	 </c:if>
+	 <c:if test="${!empty userFail }">
+	 <p>분석가가 아닙니다!</p>
+	 </c:if>
+     </div>
+     
         <form action="userLogin.do" method="post" name="loginForm" id="loginForm">
-	<div class="field">
-          <div class="ui large left icon input" style="width:300px;">
-            <i class="user icon"></i><input type="text" name="user_email"  placeholder="email@email" required>
+		<div class="field">
+          <div class="ui large left icon input">
+            <i class="user icon"></i><input type="text" name="user_email"  placeholder="email" required>
           </div>
         </div>
-        <br> <br><br>
         <div class="field">
-          <div class="ui large left icon input" style="width:300px;">
-            <i class="lock icon"></i><input type="password" name="user_pw" placeholder="PASSWORD" required>
+          <div class="ui large left icon input">
+            <i class="lock icon"></i><input type="password" name="user_pw" placeholder="password" required>
           </div>
+        </div> 
+       <h3> IP Address : <%=request.getRemoteAddr()%></h3> <br>
+       <button class="ui black button" id="btnsub" onclick="return sendit();" style="height:48px; background: #005bab;">로그인</button>
+	   <br><br>     
+	   <button class="ui grey button" onclick="return enroll();" style="height:48px; background: #888888;">회원가입</button>
+       </form>
+        <div class="tips">
+        <h5>[도움말]</h5>      
+        1) 분석가 회원가입은 관리자에 의해서만 직권으로 가입됩니다.<br>
+        2) 비밀번호 변경도 관리자에 의해 직권변경만 가능합니다.
         </div>
-        <br>
-         
-              <h3> IP Address : <%=request.getRemoteAddr()%></h3> 
-                <br>
-       <button class="ui black button" id="btnsub" onclick="return sendit();" style="width:300px; height:40px; background: #4c4c4c;">로그인</button>
-	<br><br>
-		<button class="ui grey button" onclick="return enroll();" style="width:300px;height:40px; background: #aaa;">회원가입</button>
-	<br><br><br>
-
-          </form>
-         <div class="head" style="margin-top: 80px;" >
-         [도움말]
-        <div class="ex1" style="margin-top: 20px;">
-        1) 분석가 회원가입은 관리자에 의해서만 직권으로 가입됩니다.
         </div>
-        <div class="ex2" style="margin-top: 20px;">
-        2)비밀번호 변경도 관리자에 의해 직권변경만 가능합니다.
-        </div>
-         </div>
-        </div>
-        
-
 
   </body>
 
