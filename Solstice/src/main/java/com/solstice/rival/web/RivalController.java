@@ -44,6 +44,7 @@ public class RivalController {
 					 Model model ){
 				System.out.println("####### Hello this is CompetitorController 클래스 "); 
 				 logger.info("page : " + page);
+				 String flag = "rival";
 				 int currentPage = 1;
 				 if(page !=null) {
 				 currentPage = Integer.parseInt(page);
@@ -96,6 +97,7 @@ public class RivalController {
 		             model.addAttribute("page", page);
 		             model.addAttribute("com_seq",rivaList.get(0).getCom_seq());
 		             model.addAttribute("com_company_name",rivaList.get(0).getRival_seq()); //권석전문가의 가르침
+		             model.addAttribute("flag", flag);
 		        
 		          } else {
 		             model.addAttribute("message", currentPage + "페이지 목록 조회 실패");

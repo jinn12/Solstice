@@ -50,6 +50,7 @@ private static final Logger logger = LoggerFactory.getLogger(ClientController.cl
 			 @RequestParam(name="com_reg_no",required=false)String com_reg_no, Model model ){
 		System.out.println("####### Hello this is MyClientController 클래스 "); 
 		 logger.info("page : " + page);
+		 String flag = "client";
 		 int currentPage = 1;
 		 if(page !=null) {
 		 currentPage = Integer.parseInt(page);
@@ -100,6 +101,7 @@ private static final Logger logger = LoggerFactory.getLogger(ClientController.cl
              model.addAttribute("limit",limit);
              model.addAttribute("page", page);
              model.addAttribute("com_reg_no",com_reg_no);
+             model.addAttribute("flag",flag);
              
              /*model.addAttribute("user/myQnaList");*/
           } else {
@@ -109,7 +111,73 @@ private static final Logger logger = LoggerFactory.getLogger(ClientController.cl
 		
 		return "client/clientList.tiles"; 
 		} 
-	
+	//고객 목록 팝업창
+		@RequestMapping(value="/clientListPop.do", method=RequestMethod.GET)
+		public String selectClientListPop(@RequestParam(name="page",required=false)String page, 
+				 Model model ){
+			System.out.println("####### Hello this is MyClientController 클래스 "); 
+			 logger.info("page : " + page);
+			 String flag = "client";
+			 int currentPage = 1;
+			 if(page !=null) {
+			 currentPage = Integer.parseInt(page);
+			 }
+		      //페이징
+	          int limit = 10;
+	          int listCount = clientService.listCount(); // 총 목록 갯수
+	          
+	          logger.info("listCount : " + listCount + ", currentPage : " + currentPage);
+	     
+	          //페이지 수 계산
+	          int maxPage = (int)((double)listCount / limit + 0.9);
+	          // 현재 페이지가 포함된 페이지 그룹의 시작값
+	          int startPage = (int)((double)currentPage / limit + 0.9);
+	          // 현재 페이지가 포함된 페이지 그룹의 끝값
+	          int endPage = startPage + limit - 1;
+	          
+	          if(maxPage < endPage) {
+	             endPage = maxPage;
+	          }
+	          
+	          // 쿼리문에 반영할 현재 페이지에 출력할 목록의 시작행과 끝행 계산
+	          int startRow = (currentPage - 1) * limit + 0;
+	          int endRow = startRow + limit - 0;
+	          
+	          System.out.println(startRow + ", " + endRow);
+	          
+	          HashMap<String, Object> map = new HashMap<String, Object>();
+	          map.put("startRow", startRow);
+	          map.put("endRow", endRow);
+	        
+	          
+	          List<ClientVO> list = clientService.selectClientList(map);
+	                            
+	          System.out.println("등록 고객 수 : " + list.size());
+	          System.out.println(map);
+	          System.out.println(list);
+	          
+	          
+	          
+	          if(list != null && list.size() > 0) {
+	             model.addAttribute("list",list);    //전체리스트
+	             model.addAttribute("listCount",listCount);  //리스트 전체 갯수
+	             model.addAttribute("maxPage",maxPage);
+	             model.addAttribute("currentPage",currentPage);
+	             model.addAttribute("startPage",startPage);
+	             model.addAttribute("endPage",endPage);
+	             model.addAttribute("limit",limit);
+	             model.addAttribute("page", page);
+	         
+	             model.addAttribute("flag",flag);
+	             
+	             /*model.addAttribute("user/myQnaList");*/
+	          } else {
+	             model.addAttribute("message", currentPage + "페이지 목록 조회 실패");
+	             model.addAttribute("common/error");
+	          }
+			
+			return "client/clientLIstPop"; 
+			} 
 	//고객 상세 보기
 	@RequestMapping("clientDetail.do")
 	public ModelAndView selectClientDetail(@RequestParam(name="page",required=false)String page, 
@@ -144,6 +212,38 @@ private static final Logger logger = LoggerFactory.getLogger(ClientController.cl
 	return mv;
 	
 	}
+	
+		//팝업창에서 하나의 고객을 가지고 리포드 상세 페이지로 넘어가기
+		@RequestMapping("clientDetailForReport.do")
+		public ModelAndView selectClientDetailForReport(@RequestParam(name="page",required=false)String page, 
+				 @RequestParam(name="com_seq",required=false) int com_seq, 
+   ModelAndView mv ) {
+			System.out.println("고객상세보기 컨트롤러 입성");
+
+	ClientVO client = clientService.selectClientDetailForReport(com_seq);
+		
+		
+		
+		System.out.println("고객상세보기 서비스 통과");
+		System.out.println(com_seq);
+	
+		//System.out.println(rivaList);
+		
+		//이거 나중에 맵퍼에서 쿼리문 따로 만들기
+		if (client != null) {
+		mv.addObject("client", client);
+		mv.addObject("com_seq", com_seq);
+
+		//mv.addObject("rivaList", rivaList);
+		
+		mv.setViewName("report/reportDetail.tiles");
+		} else {
+		mv.addObject("message", "리포트상세조회 실패");
+		mv.setViewName("common/error");
+		}
+		return mv;
+		
+		}
 	
 	
 	//해당 고객의 경쟁사 목록으로 이동 
@@ -418,6 +518,90 @@ private static final Logger logger = LoggerFactory.getLogger(ClientController.cl
 	      
 	        	return "client/clientList.tiles"; 
 	   }
+	   
+	 //고객 검색 팝업
+	   @RequestMapping("selectClientSearchListPop.do")
+	   public String selectClientSearchListPop(Model model,ClientVO client,
+	         @RequestParam(name = "page", required = false) String page,
+	         @RequestParam(name = "search", required = false) String search,
+	         @RequestParam(name = "searchtype", required = false) String searchtype)
+	         {
+
+	      
+	      System.out.println("serach : " + search);
+	      System.out.println("serach 2: " + searchtype);
+	      
+	       
+	      int currentPage = 1;
+	      if(page !=null) {
+	         currentPage = Integer.parseInt(page);
+	      }
+	   
+	      
+	      //페이징
+	      int limit = 10; // 한 페이지에 출력할 목록 갯수
+	      HashMap<String, Object> mapp = new HashMap<String, Object>();
+	      mapp.put("search", search);
+	      mapp.put("searchtype", searchtype);
+	      
+	      int listCount = clientService.clientSearchListCount(mapp);
+
+	      logger.info(currentPage + ", " + listCount);
+
+
+	    
+	      
+	      
+	      //페이지 수 계산
+          int maxPage = (int)((double)listCount / limit + 0.9);
+          // 현재 페이지가 포함된 페이지 그룹의 시작값
+          int startPage = (int)((double)currentPage / limit + 0.9);
+          // 현재 페이지가 포함된 페이지 그룹의 끝값
+          int endPage = startPage + limit - 1;
+          
+          if(maxPage < endPage) {
+             endPage = maxPage;
+          }
+          
+          // 쿼리문에 반영할 현재 페이지에 출력할 목록의 시작행과 끝행 계산
+          int startRow = (currentPage - 1) * limit + 0;
+          int endRow = startRow + limit - 0;
+	            
+	            
+	            HashMap<String, Object> map = new HashMap<String, Object>();
+	            map.put("startRow", startRow);
+	            map.put("endRow", endRow);
+	            map.put("search", search);
+	            map.put("searchtype", searchtype);
+	            map.put("listcount", listCount);
+
+
+	            List<ClientVO> clist = clientService. selectClientSearchList(map);
+	         
+	            logger.info("고객 수 : " + clist.size());
+	            
+	            
+	            if(clist != null && clist.size() > 0) {
+	               model.addAttribute("search", search);
+	               model.addAttribute("searchtype",searchtype);
+	               model.addAttribute("list", clist); // 리스트에 담은 전체 정보
+	               model.addAttribute("listCount", listCount); // 전체갯수
+	               model.addAttribute("maxPage", maxPage); // 맨마지막페이지
+	               model.addAttribute("currentPage", currentPage); // 해당페이지 기본값 1
+	               model.addAttribute("startPage", startPage); // 첫페이지
+	               model.addAttribute("endPage", endPage); // 끝페이지
+	               model.addAttribute("limit", limit); // 한페이지당 출력할갯수 기본값10개
+	               model.addAttribute("page", page);
+	               
+	            } else {
+	               model.addAttribute("message", currentPage + "페이지 목록 조회 실패");
+	               model.addAttribute("common/error");
+	            }
+	            
+	      
+	        	return "client/clientLIstPop"; 
+	   }
+	   
 	   
 	   
 

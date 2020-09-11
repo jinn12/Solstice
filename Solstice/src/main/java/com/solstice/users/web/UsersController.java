@@ -147,7 +147,7 @@ public class UsersController {
 					if(session != null) {
 						session.invalidate();
 					}
-					return "users/usersLogin";
+					return "main/main";
 				}
 			
 			/*	// 내정보 수정 페이지 이동

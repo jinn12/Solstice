@@ -17,6 +17,11 @@
 		 $(".icoRight").toggle();
 		 $(".icoLeft").toggle();
 	 })
+	 
+	 var flag='${flag}';
+	 var a=$("#"+flag);
+	 a.addClass('active');
+	 console.log(a);
  })
 
 </script>
@@ -37,38 +42,39 @@
 	</div>
 	
 	<ul class="menu">
-		
+	
 		<li><a class="first_menu"><i class="fas fa-list"></i>기본정보</a>
 			<ul class="second_menu">
-				<li id="noticeList"><a href="noticeList.do"><i class="fas fa-caret-right"></i>공지사항</a></li> 
-				<li><a href="requestList.do"><i class="fas fa-caret-right"></i>전산업무요청</a></li>
+					<li id="notice"><a href="noticeList.do"><i class="fas fa-caret-right"></i>공지사항</a></li> 
+			
+			<li id="request"><a href="requestList.do"><i class="fas fa-caret-right"></i>전산업무요청</a></li>
 			</ul>
 		</li> 
 		
 		<li><a class="first_menu"><i class="fas fa-user-cog"></i>고객정보관리</a>
 			<ul class="second_menu">
-				<li><a href="clientList.do"><i class="fas fa-caret-right"></i>고객 관리</a></li>
-				<li><a href="rivalList.do"><i class="fas fa-caret-right"></i>경쟁사 관리</a></li>
+				<li id="client"><a href="clientList.do"><i class="fas fa-caret-right"></i>고객 관리</a></li>
+				<li id="rival"><a href="rivalList.do"><i class="fas fa-caret-right"></i>경쟁사 관리</a></li>
 			</ul>
 		</li>
 		<li><a class="first_menu"><i class="fas fa-chart-bar"></i>데이터관리</a>
 			<ul class="second_menu">
-				<li><a href="tradeMarkList.do"><i class="fas fa-caret-right"></i>상표공보 검색</a></li>
-				<li><a href="tradeNameList.do"><i class="fas fa-caret-right"></i>상호정보 검색</a></li>
-				<li><a href="productList.do"><i class="fas fa-caret-right"></i>상품정보 검색</a></li>
+				<li id="tradeMark"><a href="tradeMarkList.do"><i class="fas fa-caret-right"></i>상표공보 검색</a></li>
+				<li id="tradeName"><a href="tradeNameList.do"><i class="fas fa-caret-right"></i>상호정보 검색</a></li>
+				<li id="product"><a href="productList.do"><i class="fas fa-caret-right"></i>상품정보 검색</a></li>
 			</ul>
 		</li>
 		<li><a class="first_menu"><i class="fas fa-chart-pie"></i>분석관리</a>
 			<ul class="second_menu">
-				<li><a href="tminfrList.do"><i class="fas fa-caret-right"></i>상표 침해현황</a></li>  
-				<li><a href="tninfrList.do"><i class="fas fa-caret-right"></i>상호 침해현황</a></li>
-				<li><a href="proInfrList.do"><i class="fas fa-caret-right"></i>상품 침해현황</a></li>
-				<li><a href="toinfrList.do"><i class="fas fa-caret-right"></i>종합 현황</a></li>
+				<li id="tradeMarkIn"><a href="tminfrList.do"><i class="fas fa-caret-right"></i>상표 침해현황</a></li>  
+				<li id="tradeNameIn"><a href="tninfrList.do"><i class="fas fa-caret-right"></i>상호 침해현황</a></li>
+				<li id="productIn"><a href="proInfrList.do"><i class="fas fa-caret-right"></i>상품 침해현황</a></li>
+				<li id="totalIn"><a href="toinfrList.do"><i class="fas fa-caret-right"></i>종합 현황</a></li>
 			</ul>
 		</li>
 		<li><a class="first_menu"><i class="fas fa-briefcase"></i>프로젝트관리</a>
 			<ul class="second_menu">
-				<li><a href="reportList.do"><i class="fas fa-caret-right"></i>프로젝트 목록</a></li>
+				<li id="report"><a href="reportList.do"><i class="fas fa-caret-right"></i>프로젝트 목록</a></li>
 			</ul>
 		</li>
 		</ul>

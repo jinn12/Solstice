@@ -93,12 +93,12 @@ public class RivalServiceImpl implements RivalService {
 		return mybatisSession.selectOne("selectRivalOfTmDetail",rivalOfTm1);
 	}
 
-	/*@Override
-	public RivalVO selectRivalOfTmDetail(RivalVO rivalOfTm1) {
+	@Override
+	public List<RivalVO> selectRivalListCount() {
 		// TODO Auto-generated method stub
-		return mybatisSession.selectOne("selectRivalOfTmDetail",rivalOfTm1);
+		return mybatisSession.selectList("selectRivalListCount");
 	}
-*/
+
 
 	
 

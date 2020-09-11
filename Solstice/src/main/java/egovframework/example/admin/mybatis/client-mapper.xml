@@ -21,6 +21,7 @@
 		com_seq,
 		com_biz_no,
 		com_company_name,
+		com_addr,
 		kipo_no_list,
 		com_reg_no,
 		staff1_name,
@@ -41,19 +42,21 @@
 		demander_keyword,
 		claimee_keyword,
 		start_date,
-		end_date 
+		end_date,
+		com_del_flag
 		) values
 		(
 		null,
 		#{com_biz_no},
 		#{com_company_name},
+		#{com_addr},
 		#{kipo_no_list},
 		#{com_reg_no},
 		#{staff1_name},
 		#{staff1_dept},
 		#{staff1_tel},
 		#{staff1_email},
-		null,
+		 DATE_FORMAT(NOW(), "%Y-%m-%e %H:%i"),
 		null,
 		#{staff2_name},
 		#{staff2_dept},
@@ -68,19 +71,21 @@
 		null,
 		null,
 		null,
-		null );
+		null,
+		'N' );
 		
 	</insert>
 	
 	<!-- Client 갯수 조회 -->
-<select id="listCount" resultType="int" >select count(*) from TB20_200_COMPANY</select>
+<select id="listCount" resultType="int" >select count(*) from TB20_200_COMPANY WHERE com_del_flag = 'N'</select>
 	<!-- Client 목록 조회 -->
 	<select id="selectClientList" resultType="ClientVO" parameterType="Hashmap">
 	
 	 <![CDATA[
 SELECT a.com_seq,
-       a.com_biz_no,
+       concat(SUBSTR(com_biz_no,1,3),'-',SUBSTR(com_biz_no,4,2),'-',SUBSTR(com_biz_no,6,5)) as com_biz_no,
        a.com_company_name,
+       a.com_addr,
        a.kipo_no_list,
        a.com_reg_no,
        a.staff1_name,
@@ -107,6 +112,7 @@ FROM (SELECT TB20_200_COMPANY.*, TB20_230_RIVAL.com_seq as abc
       FROM TB20_200_COMPANY 
           LEFT JOIN TB20_230_RIVAL
               ON TB20_200_COMPANY.com_seq = TB20_230_RIVAL.com_seq
+              WHERE TB20_200_COMPANY.com_del_flag = 'N'
       ORDER BY TB20_200_COMPANY.com_seq ASC) a GROUP BY 
 a.com_seq
  LIMIT #{startRow},#{endRow}
@@ -115,40 +121,42 @@ a.com_seq
 
 
 </select>
-	<!-- Client 목록에서 삭제 -->
+	<!-- Client 목록에서 삭제로 보이지만 감추기 -->
  <delete id="deleteClient" parameterType="_int">
-   delete from TB20_200_COMPANY
-   where com_seq = #{com_seq} 
+ update TB20_200_COMPANY set
+ com_del_flag = 'Y'
+ where com_seq = #{com_seq}
+
     </delete>
 
 <!-- Client 검색 갯수 조회 -->
 <select  id="clientSearchListCount" resultType="_int" parameterType="Hashmap">
 
-  select count(*) from TB20_200_COMPANY 
+  select count(*) from TB20_200_COMPANY  
   <trim prefix="WHERE" prefixOverrides="AND|OR">
 
-             <if test="searchtype=='' and search != null and search!= '' ">
+            <if test="search=='' and searchtype== '' or search=='' and searchytpe==null">
+				com_biz_no like CONCAT('%', #{search}, '%') and com_del_flag='N'  
+				or com_company_name like CONCAT('%', #{search}, '%') and com_del_flag='N'
+				or kipo_no_list like CONCAT('%', #{search}, '%') and com_del_flag='N'
 
-				com_biz_no like CONCAT('%', #{search}, '%') or com_company_name like CONCAT('%', #{search}, '%') or 
-				kipo_no_list like CONCAT('%', #{search}, '%')
+			</if> 
+			
+		<if test="searchtype=='com_biz_no' and search != null and search!= '' ">
 
-			</if>
-
-			<if test="searchtype=='com_biz_no' and search != null and search!= '' ">
-
-			  com_biz_no like CONCAT('%', #{search}, '%')
+			  com_biz_no like CONCAT('%', #{search}, '%') and com_del_flag='N'
 
 			</if>
 
 			<if test="searchtype=='com_company_name' and search != null and search != '' ">
 
-				com_company_name like CONCAT('%', #{search}, '%')
+				com_company_name like CONCAT('%', #{search}, '%') and com_del_flag='N'
 
 			</if>
 
 			<if test="searchtype=='kipo_no_list' and search != null and search != '' ">
 
-				kipo_no_list like CONCAT('%', #{search}, '%')
+				kipo_no_list like CONCAT('%', #{search}, '%') and com_del_flag='N'
 
 			</if>	
 
@@ -160,40 +168,60 @@ a.com_seq
 <select resultType="ClientVO" id="selectClientSearchList" parameterType="Hashmap">
 
 
- 
-      select TB20_200_COMPANY.* FROM(
-	SELECT * FROM TB20_200_COMPANY
-        order by com_seq  asc
-) TB20_200_COMPANY 
+ <![CDATA[ 
+  
+	SELECT  com_seq,
+       concat(SUBSTR(com_biz_no,1,3),'-',SUBSTR(com_biz_no,4,2),'-',SUBSTR(com_biz_no,6,5)) as com_biz_no,
+       com_company_name,
+       com_addr,
+     kipo_no_list,
+      com_reg_no,
+       staff1_name,
+      staff1_dept,
+       staff1_tel,
+       staff1_email,
+       reg_time,
+       mod_time,
+       staff2_name,
+       staff2_dept,
+       staff2_tel,
+       staff2_email,
+       com_ceo,
+       com_company_name2,
+       com_name_roman1,
+       com_name_roman2,
+       com_name_roman3,
+       demander_keyword,
+       claimee_keyword,
+      start_date,
+       end_date
+        FROM TB20_200_COMPANY
+        
+      ]]>
+
 <trim prefix="WHERE" prefixOverrides="AND|OR">
-                  <if test="searchtype== null and search != null and search!= '' ">
-                  com_biz_no like CONCAT('%', #{search}, '%') or com_company_name like CONCAT('%', #{search}, '%') or 
-				kipo_no_list like CONCAT('%', #{search}, '%')
-                  </if>
-              
+             <if test="search=='' and searchtype== '' or search=='' and searchytpe==null">
+				com_biz_no like CONCAT('%', #{search}, '%') and com_del_flag='N'  
+				or com_company_name like CONCAT('%', #{search}, '%') and com_del_flag='N'
+				or kipo_no_list like CONCAT('%', #{search}, '%') and com_del_flag='N'
 
-             <if test="searchtype=='' and search != null and search!= '' ">
-
-				com_biz_no like CONCAT('%', #{search}, '%') or com_company_name like CONCAT('%', #{search}, '%') or 
-				kipo_no_list like CONCAT('%', #{search}, '%')
-
-			</if>
+			</if> 
 
 			<if test="searchtype=='com_biz_no' and search != null and search!= '' ">
 
-				com_biz_no like CONCAT('%', #{search}, '%')
+				com_biz_no like CONCAT('%', #{search}, '%') and com_del_flag='N'
 
 			</if>
 
 			<if test="searchtype=='com_company_name' and search != null and search != '' ">
 
-				 com_company_name like CONCAT('%', #{search}, '%')
+				 com_company_name like CONCAT('%', #{search}, '%') and com_del_flag='N'
 
 			</if>
 
 			<if test="searchtype=='kipo_no_list' and search != null and search != '' ">
 
-				 kipo_no_list like CONCAT('%', #{search}, '%')
+				 kipo_no_list like CONCAT('%', #{search}, '%') and com_del_flag='N'
 
 			</if>	
 
@@ -210,15 +238,42 @@ a.com_seq
   <!-- 고객 상세 조회 -->
    <select id="selectClientDetail" resultType="ClientVO"
       parameterType="_int">
-      select *
+       <![CDATA[ 
+      select com_seq,
+       concat(SUBSTR(com_biz_no,1,3),'-',SUBSTR(com_biz_no,4,2),'-',SUBSTR(com_biz_no,6,5)) as com_biz_no,
+       com_company_name,
+       com_addr,
+     kipo_no_list,
+      com_reg_no,
+       staff1_name,
+      staff1_dept,
+       staff1_tel,
+       staff1_email,
+       reg_time,
+       mod_time,
+       staff2_name,
+       staff2_dept,
+       staff2_tel,
+       staff2_email,
+       com_ceo,
+       com_company_name2,
+       com_name_roman1,
+       com_name_roman2,
+       com_name_roman3,
+       demander_keyword,
+       claimee_keyword,
+      start_date,
+       end_date
       from TB20_200_COMPANY
       where com_seq = #{ com_seq }
+       ]]>
    </select>
    
    <!-- Client 상세보기에서 삭제 -->
  <delete id="deleteDetailClient" parameterType="_int">
-   delete from TB20_200_COMPANY
-   where com_seq = #{com_seq} 
+ update TB20_200_COMPANY set
+ com_del_flag = 'Y'
+ where com_seq = #{com_seq}
     </delete>
     <!-- client 수정페이지 이동 -->
     <select id="moveUpdateClient" resultType="ClientVO">
@@ -235,6 +290,7 @@ update TB20_200_COMPANY set
  staff1_name = #{staff1_name},
  staff1_tel = #{staff1_tel},
  staff1_email = #{staff1_email},
+ mod_time = DATE_FORMAT(NOW(), "%Y-%m-%e %H:%i"),
  staff2_name = #{staff2_name},
  staff2_tel = #{staff2_tel},
  staff2_email = #{staff2_email},
@@ -316,7 +372,7 @@ SELECT * FROM  TB20_230_RIVAL b INNER JOIN TB20_200_COMPANY a  ON  a.com_seq = b
 		#{rival_biz_no},
 		#{rival_ceo},
 		#{rival_kipo_no_list},
-		null,
+		DATE_FORMAT(NOW(), "%Y-%m-%e %H:%i"),
 		null,
 		#{com_seq},
 		#{rival_reg_no},
@@ -362,6 +418,39 @@ SELECT * FROM  TB20_230_RIVAL b INNER JOIN TB20_200_COMPANY a  ON  a.com_seq = b
   on b.tm_seq = c.tm_seq where c.kipo_no = #{kipo_no} and b.com_seq =#{com_seq}
 	</select>
    
-   
+
+    <!-- 고객 상세 조회 -->
+   <select id="selectClientDetailForReport" resultType="ClientVO"
+      parameterType="_int">
+       <![CDATA[ 
+      select com_seq,
+       concat(SUBSTR(com_biz_no,1,3),'-',SUBSTR(com_biz_no,4,2),'-',SUBSTR(com_biz_no,6,5)) as com_biz_no,
+       com_company_name,
+       com_addr,
+     kipo_no_list,
+      com_reg_no,
+       staff1_name,
+      staff1_dept,
+       staff1_tel,
+       staff1_email,
+       reg_time,
+       mod_time,
+       staff2_name,
+       staff2_dept,
+       staff2_tel,
+       staff2_email,
+       com_ceo,
+       com_company_name2,
+       com_name_roman1,
+       com_name_roman2,
+       com_name_roman3,
+       demander_keyword,
+       claimee_keyword,
+      start_date,
+       end_date
+      from TB20_200_COMPANY
+      where com_seq = #{ com_seq }
+       ]]>
+   </select>
 	
 </mapper>

@@ -35,9 +35,10 @@ public class TradeMarkController {
 	
 	//상표 목록 
 		@RequestMapping(value="/tradeMarkList.do", method=RequestMethod.GET)
-		public String selectTmListPage(){
+		public String selectTmListPage(Model model){
+			String flag ="tradeMark";
 			System.out.println("####### Hello this is TradeMark 클래스 "); 
-			
+			model.addAttribute("flag",flag);
 	          return "trademark/trademarkList.tiles"; 
 			} 
 	

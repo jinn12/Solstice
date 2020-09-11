@@ -37,8 +37,9 @@ public class NoticeController {
 	//공지사항 목록으로 이동
 	//고객 목록 
 		@RequestMapping(value="/noticeList.do", method=RequestMethod.GET)
-		public String selectClientList(@RequestParam(name="page",required=false)String page, 
+		public String selectNoticeList(@RequestParam(name="page",required=false)String page, 
 				 Model model ){
+			String flag = "notice";
 			System.out.println("####### Hello this is MyClientController 클래스 "); 
 			 logger.info("page : " + page);
 			 int currentPage = 1;
@@ -90,6 +91,7 @@ public class NoticeController {
 	             model.addAttribute("endPage",endPage);
 	             model.addAttribute("limit",limit);
 	             model.addAttribute("page", page);
+	             model.addAttribute("flag", flag);
 	      
 	          } else {
 	             model.addAttribute("message", currentPage + "페이지 목록 조회 실패");

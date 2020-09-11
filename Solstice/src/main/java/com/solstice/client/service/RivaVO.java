@@ -14,10 +14,10 @@ public class RivaVO implements Serializable{
 	 private String rival_biz_no;
 	 private String rival_ceo;
 	 private String rival_kipo_no_list;
-	 private char reg_time;
-	 private char mod_time;
-	 private char rival_reg_time;
-	 private char rival_mod_time;
+	 private String reg_time;
+	 private String mod_time;
+	 private String rival_reg_time;
+	 private String rival_mod_time;
 	 private String rival_reg_no;
 	 private String rival_company_name2;
 	 private String demander_keyword;
@@ -26,7 +26,7 @@ public class RivaVO implements Serializable{
 	 public RivaVO() {}
 
 	public RivaVO(int com_seq, int rival_seq, String rival_company_name, String rival_biz_no, String rival_ceo,
-			String rival_kipo_no_list, char reg_time, char mod_time, char rival_reg_time, char rival_mod_time,
+			String rival_kipo_no_list, String reg_time, String mod_time, String rival_reg_time, String rival_mod_time,
 			String rival_reg_no, String rival_company_name2, String demander_keyword, String claimee_keyword) {
 		super();
 		this.com_seq = com_seq;
@@ -93,35 +93,35 @@ public class RivaVO implements Serializable{
 		this.rival_kipo_no_list = rival_kipo_no_list;
 	}
 
-	public char getReg_time() {
+	public String getReg_time() {
 		return reg_time;
 	}
 
-	public void setReg_time(char reg_time) {
+	public void setReg_time(String reg_time) {
 		this.reg_time = reg_time;
 	}
 
-	public char getMod_time() {
+	public String getMod_time() {
 		return mod_time;
 	}
 
-	public void setMod_time(char mod_time) {
+	public void setMod_time(String mod_time) {
 		this.mod_time = mod_time;
 	}
 
-	public char getRival_reg_time() {
+	public String getRival_reg_time() {
 		return rival_reg_time;
 	}
 
-	public void setRival_reg_time(char rival_reg_time) {
+	public void setRival_reg_time(String rival_reg_time) {
 		this.rival_reg_time = rival_reg_time;
 	}
 
-	public char getRival_mod_time() {
+	public String getRival_mod_time() {
 		return rival_mod_time;
 	}
 
-	public void setRival_mod_time(char rival_mod_time) {
+	public void setRival_mod_time(String rival_mod_time) {
 		this.rival_mod_time = rival_mod_time;
 	}
 
@@ -154,6 +154,7 @@ public class RivaVO implements Serializable{
 	}
 
 	public void setClaimee_keyword(String claimee_keyword) {
+		this.claimee_keyword = claimee_keyword;
 	}
 
 	@Override
@@ -166,5 +167,6 @@ public class RivaVO implements Serializable{
 				+ ", claimee_keyword=" + claimee_keyword + "]";
 	}
 
+	
 	
 }

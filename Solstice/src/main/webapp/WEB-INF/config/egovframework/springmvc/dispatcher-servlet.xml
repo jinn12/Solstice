@@ -69,6 +69,10 @@
                   </list>
             </property>
       </bean>
+<!-- 제이슨 -->
+<bean id="jsonView" class="org.json.simple.JSONObject">
+
+	</bean>
 
     <bean class="org.springframework.web.servlet.view.UrlBasedViewResolver" p:order="2"
 	    p:viewClass="org.springframework.web.servlet.view.JstlView"
@@ -87,4 +91,5 @@
 	<!-- /For Pagination Tag -->
 
     <mvc:view-controller path="/cmmn/validator.do" view-name="cmmn/validator"/>
+  
 </beans>

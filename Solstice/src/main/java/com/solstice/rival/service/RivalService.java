@@ -33,6 +33,8 @@ public interface RivalService {
 
 	RivalVO selectRivalOfTmDetail(RivalVO rivalOfTm1);
 
+	List<RivalVO> selectRivalListCount();
+
 /*	RivalVO selectRivalOfTmDetail(RivalVO rivalOfTm1);*/
 	
 

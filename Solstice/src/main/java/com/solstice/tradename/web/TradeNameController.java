@@ -31,8 +31,10 @@ public class TradeNameController {
 	
 	//상호정보 검색하는 화면으로 가기
 	@RequestMapping(value="/tradeNameList.do", method=RequestMethod.GET)
-	public String selectTradeNameList(){ 
+	public String selectTradeNameList(Model model){ 
+		String flag = "tradeName";
 		System.out.println("####### Hello this is MyTradeNameController 클래스 "); 
+		model.addAttribute("flag",flag);
 		return "tradename/tradenameList.tiles"; 
 		} 
 	

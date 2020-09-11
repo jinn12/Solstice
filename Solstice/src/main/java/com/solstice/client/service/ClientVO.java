@@ -11,14 +11,15 @@ public class ClientVO implements Serializable{
 	private int com_seq;
 	private String com_biz_no;
 	private String com_company_name;
+	private String com_addr;
 	private String kipo_no_list;
 	 private String com_reg_no;	
 	 private String staff1_name;
 	 private String staff1_dept;
 	private String staff1_tel;	
 	private  String staff1_email;
-	 private char reg_time;
-	 private char mod_time;
+	 private String reg_time;
+	 private String mod_time;
 	 private String staff2_name;
 	 private String staff2_dept;
 	 private String staff2_tel;
@@ -37,8 +38,8 @@ public class ClientVO implements Serializable{
 	 private String rival_kipo_no_list;
 	 private String demander_keyword;
 	 private String claimee_keyword;
-	 private char rival_reg_time;
-	 private char rival_mod_time;
+	 private String rival_reg_time;
+	 private String rival_mod_time;
 	 private int  prod_cate_seq;
 	 private String prod_cate_code;
 	 private String prod_cate_contents;
@@ -78,30 +79,32 @@ public class ClientVO implements Serializable{
     private String tm_roman4;
     private String tm_roman5;
     private String kipo_no;
+    private char com_del_flag;
    
 		
 	 public ClientVO () {}
 
 
-	public ClientVO(int com_seq, String com_biz_no, String com_company_name, String kipo_no_list, String com_reg_no,
-			String staff1_name, String staff1_dept, String staff1_tel, String staff1_email, char reg_time,
-			char mod_time, String staff2_name, String staff2_dept, String staff2_tel, String staff2_email,
-			String com_ceo, String com_company_name2, String com_name_roman1, String com_name_roman2,
-			String com_name_roman3, int rival_seq, String rival_company_name, String rival_company_name2,
-			String rival_biz_no, String rival_reg_no, String rival_ceo, String rival_kipo_no_list,
-			String demander_keyword, String claimee_keyword, char rival_reg_time, char rival_mod_time,
-			int prod_cate_seq, String prod_cate_code, String prod_cate_contents, String prod_cate_version,
-			String prod_cate_detail, int tm_seq, String appl_no, char appl_date, String applicant, String reg_no,
-			char reg_dat, String prod_cate_code_list, String pub_no, char pub_date, String reg_pub_no,
-			char reg_pub_date, String org_appl_no, char org_appl_date, String prior_no, char prior_date,
-			String rel_appl_no, String common_status, String legal_status, String exam_status, char exam_date,
-			String retro_category, char retro_date, String tm_ko, String tm_roman1, String image_url, char del_flag,
-			String appl_url, String reg_url, String tm_roman2, String tm_en, String tm_roman3, String tm_roman4,
-			String tm_roman5, String kipo_no) {
+	public ClientVO(int com_seq, String com_biz_no, String com_company_name, String com_addr, String kipo_no_list,
+			String com_reg_no, String staff1_name, String staff1_dept, String staff1_tel, String staff1_email,
+			String reg_time, String mod_time, String staff2_name, String staff2_dept, String staff2_tel,
+			String staff2_email, String com_ceo, String com_company_name2, String com_name_roman1,
+			String com_name_roman2, String com_name_roman3, int rival_seq, String rival_company_name,
+			String rival_company_name2, String rival_biz_no, String rival_reg_no, String rival_ceo,
+			String rival_kipo_no_list, String demander_keyword, String claimee_keyword, String rival_reg_time,
+			String rival_mod_time, int prod_cate_seq, String prod_cate_code, String prod_cate_contents,
+			String prod_cate_version, String prod_cate_detail, int tm_seq, String appl_no, char appl_date,
+			String applicant, String reg_no, char reg_dat, String prod_cate_code_list, String pub_no, char pub_date,
+			String reg_pub_no, char reg_pub_date, String org_appl_no, char org_appl_date, String prior_no,
+			char prior_date, String rel_appl_no, String common_status, String legal_status, String exam_status,
+			char exam_date, String retro_category, char retro_date, String tm_ko, String tm_roman1, String image_url,
+			char del_flag, String appl_url, String reg_url, String tm_roman2, String tm_en, String tm_roman3,
+			String tm_roman4, String tm_roman5, String kipo_no, char com_del_flag) {
 		super();
 		this.com_seq = com_seq;
 		this.com_biz_no = com_biz_no;
 		this.com_company_name = com_company_name;
+		this.com_addr = com_addr;
 		this.kipo_no_list = kipo_no_list;
 		this.com_reg_no = com_reg_no;
 		this.staff1_name = staff1_name;
@@ -169,6 +172,7 @@ public class ClientVO implements Serializable{
 		this.tm_roman4 = tm_roman4;
 		this.tm_roman5 = tm_roman5;
 		this.kipo_no = kipo_no;
+		this.com_del_flag = com_del_flag;
 	}
 
 
@@ -199,6 +203,16 @@ public class ClientVO implements Serializable{
 
 	public void setCom_company_name(String com_company_name) {
 		this.com_company_name = com_company_name;
+	}
+
+
+	public String getCom_addr() {
+		return com_addr;
+	}
+
+
+	public void setCom_addr(String com_addr) {
+		this.com_addr = com_addr;
 	}
 
 
@@ -262,22 +276,22 @@ public class ClientVO implements Serializable{
 	}
 
 
-	public char getReg_time() {
+	public String getReg_time() {
 		return reg_time;
 	}
 
 
-	public void setReg_time(char reg_time) {
+	public void setReg_time(String reg_time) {
 		this.reg_time = reg_time;
 	}
 
 
-	public char getMod_time() {
+	public String getMod_time() {
 		return mod_time;
 	}
 
 
-	public void setMod_time(char mod_time) {
+	public void setMod_time(String mod_time) {
 		this.mod_time = mod_time;
 	}
 
@@ -462,22 +476,22 @@ public class ClientVO implements Serializable{
 	}
 
 
-	public char getRival_reg_time() {
+	public String getRival_reg_time() {
 		return rival_reg_time;
 	}
 
 
-	public void setRival_reg_time(char rival_reg_time) {
+	public void setRival_reg_time(String rival_reg_time) {
 		this.rival_reg_time = rival_reg_time;
 	}
 
 
-	public char getRival_mod_time() {
+	public String getRival_mod_time() {
 		return rival_mod_time;
 	}
 
 
-	public void setRival_mod_time(char rival_mod_time) {
+	public void setRival_mod_time(String rival_mod_time) {
 		this.rival_mod_time = rival_mod_time;
 	}
 
@@ -860,7 +874,6 @@ public class ClientVO implements Serializable{
 	public void setTm_roman5(String tm_roman5) {
 		this.tm_roman5 = tm_roman5;
 	}
-	
 
 
 	public String getKipo_no() {
@@ -873,33 +886,47 @@ public class ClientVO implements Serializable{
 	}
 
 
+	public char getCom_del_flag() {
+		return com_del_flag;
+	}
+
+
+	public void setCom_del_flag(char com_del_flag) {
+		this.com_del_flag = com_del_flag;
+	}
+
+
 	@Override
 	public String toString() {
 		return "ClientVO [com_seq=" + com_seq + ", com_biz_no=" + com_biz_no + ", com_company_name=" + com_company_name
-				+ ", kipo_no_list=" + kipo_no_list + ", com_reg_no=" + com_reg_no + ", staff1_name=" + staff1_name
-				+ ", staff1_dept=" + staff1_dept + ", staff1_tel=" + staff1_tel + ", staff1_email=" + staff1_email
-				+ ", reg_time=" + reg_time + ", mod_time=" + mod_time + ", staff2_name=" + staff2_name
-				+ ", staff2_dept=" + staff2_dept + ", staff2_tel=" + staff2_tel + ", staff2_email=" + staff2_email
-				+ ", com_ceo=" + com_ceo + ", com_company_name2=" + com_company_name2 + ", com_name_roman1="
-				+ com_name_roman1 + ", com_name_roman2=" + com_name_roman2 + ", com_name_roman3=" + com_name_roman3
-				+ ", rival_seq=" + rival_seq + ", rival_company_name=" + rival_company_name + ", rival_company_name2="
-				+ rival_company_name2 + ", rival_biz_no=" + rival_biz_no + ", rival_reg_no=" + rival_reg_no
-				+ ", rival_ceo=" + rival_ceo + ", rival_kipo_no_list=" + rival_kipo_no_list + ", demander_keyword="
-				+ demander_keyword + ", claimee_keyword=" + claimee_keyword + ", rival_reg_time=" + rival_reg_time
-				+ ", rival_mod_time=" + rival_mod_time + ", prod_cate_seq=" + prod_cate_seq + ", prod_cate_code="
-				+ prod_cate_code + ", prod_cate_contents=" + prod_cate_contents + ", prod_cate_version="
-				+ prod_cate_version + ", prod_cate_detail=" + prod_cate_detail + ", tm_seq=" + tm_seq + ", appl_no="
-				+ appl_no + ", appl_date=" + appl_date + ", applicant=" + applicant + ", reg_no=" + reg_no
-				+ ", reg_dat=" + reg_dat + ", prod_cate_code_list=" + prod_cate_code_list + ", pub_no=" + pub_no
-				+ ", pub_date=" + pub_date + ", reg_pub_no=" + reg_pub_no + ", reg_pub_date=" + reg_pub_date
-				+ ", org_appl_no=" + org_appl_no + ", org_appl_date=" + org_appl_date + ", prior_no=" + prior_no
-				+ ", prior_date=" + prior_date + ", rel_appl_no=" + rel_appl_no + ", common_status=" + common_status
-				+ ", legal_status=" + legal_status + ", exam_status=" + exam_status + ", exam_date=" + exam_date
-				+ ", retro_category=" + retro_category + ", retro_date=" + retro_date + ", tm_ko=" + tm_ko
+				+ ", com_addr=" + com_addr + ", kipo_no_list=" + kipo_no_list + ", com_reg_no=" + com_reg_no
+				+ ", staff1_name=" + staff1_name + ", staff1_dept=" + staff1_dept + ", staff1_tel=" + staff1_tel
+				+ ", staff1_email=" + staff1_email + ", reg_time=" + reg_time + ", mod_time=" + mod_time
+				+ ", staff2_name=" + staff2_name + ", staff2_dept=" + staff2_dept + ", staff2_tel=" + staff2_tel
+				+ ", staff2_email=" + staff2_email + ", com_ceo=" + com_ceo + ", com_company_name2=" + com_company_name2
+				+ ", com_name_roman1=" + com_name_roman1 + ", com_name_roman2=" + com_name_roman2 + ", com_name_roman3="
+				+ com_name_roman3 + ", rival_seq=" + rival_seq + ", rival_company_name=" + rival_company_name
+				+ ", rival_company_name2=" + rival_company_name2 + ", rival_biz_no=" + rival_biz_no + ", rival_reg_no="
+				+ rival_reg_no + ", rival_ceo=" + rival_ceo + ", rival_kipo_no_list=" + rival_kipo_no_list
+				+ ", demander_keyword=" + demander_keyword + ", claimee_keyword=" + claimee_keyword
+				+ ", rival_reg_time=" + rival_reg_time + ", rival_mod_time=" + rival_mod_time + ", prod_cate_seq="
+				+ prod_cate_seq + ", prod_cate_code=" + prod_cate_code + ", prod_cate_contents=" + prod_cate_contents
+				+ ", prod_cate_version=" + prod_cate_version + ", prod_cate_detail=" + prod_cate_detail + ", tm_seq="
+				+ tm_seq + ", appl_no=" + appl_no + ", appl_date=" + appl_date + ", applicant=" + applicant
+				+ ", reg_no=" + reg_no + ", reg_dat=" + reg_dat + ", prod_cate_code_list=" + prod_cate_code_list
+				+ ", pub_no=" + pub_no + ", pub_date=" + pub_date + ", reg_pub_no=" + reg_pub_no + ", reg_pub_date="
+				+ reg_pub_date + ", org_appl_no=" + org_appl_no + ", org_appl_date=" + org_appl_date + ", prior_no="
+				+ prior_no + ", prior_date=" + prior_date + ", rel_appl_no=" + rel_appl_no + ", common_status="
+				+ common_status + ", legal_status=" + legal_status + ", exam_status=" + exam_status + ", exam_date="
+				+ exam_date + ", retro_category=" + retro_category + ", retro_date=" + retro_date + ", tm_ko=" + tm_ko
 				+ ", tm_roman1=" + tm_roman1 + ", image_url=" + image_url + ", del_flag=" + del_flag + ", appl_url="
 				+ appl_url + ", reg_url=" + reg_url + ", tm_roman2=" + tm_roman2 + ", tm_en=" + tm_en + ", tm_roman3="
-				+ tm_roman3 + ", tm_roman4=" + tm_roman4 + ", tm_roman5=" + tm_roman5 + ", kipo_no=\" + kipo_no + \"]";
+				+ tm_roman3 + ", tm_roman4=" + tm_roman4 + ", tm_roman5=" + tm_roman5 + ", kipo_no=" + kipo_no
+				+ ", com_del_flag=" + com_del_flag + "]";
 	}
 
+
+	
+	
 	
 }

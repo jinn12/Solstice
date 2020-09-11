@@ -131,7 +131,7 @@ LIMIT #{startRow},#{endRow}
 		#{user_email},
         DATE_FORMAT(NOW(), "%Y-%m-%e %H:%i"),
 		null,
-	    null,
+	    0,
 	    null,
 	    null
 		);

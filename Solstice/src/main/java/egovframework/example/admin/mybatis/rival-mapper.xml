@@ -200,6 +200,10 @@ update TB20_230_RIVAL set
   left join TB20_310_TM_BIBLIO c
   on b.tm_seq = c.tm_seq where c.tm_seq = #{tm_seq} and a.rival_seq = #{rival_seq}
    </select>
+	<!--구글 차트 연습  -->
+	<select id="selectRivalListCount" resultType="RivalVO">
+       select * from TB20_230_RIVAL
+   </select>
 	
     
 </mapper>

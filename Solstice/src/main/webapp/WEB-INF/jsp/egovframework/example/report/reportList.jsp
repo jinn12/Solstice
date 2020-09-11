@@ -1,150 +1,117 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+       <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+   <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
+   <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<title>Insert title here</title>
-<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
-  <script type="text/javascript">
-  google.charts.load("current", {packages:['corechart']});
-  google.charts.setOnLoadCallback(drawChart);
-  function drawChart() {
-    var data = google.visualization.arrayToDataTable([
-      ["Element", "Density", { role: "style" } ],
-      ["08월", 8.94, "#b87333"],
-      ["09월", 10.49, "silver"],
-      ["10월", 19.30, "gold"],
-   
-    ]);
+<title>프로젝트 목록</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/semantic-ui@2.4.2/dist/semantic.min.js"></script>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/semantic-ui@2.4.2/dist/semantic.min.css">
+ <style>
 
-    var view = new google.visualization.DataView(data);
-    view.setColumns([0, 1,
-                     { calc: "stringify",
-                       sourceColumn: 1,
-                       type: "string",
-                       role: "annotation" },
-                     2]);
+  
+ a:link { color: black; text-decoration: none;}
 
-    var options = {
-      width: 600,
-      height: 400,
-      bar: {groupWidth: "95%"},
-      legend: { position: "none" },
-    };
-    var chart = new google.visualization.ColumnChart(document.getElementById("columnchart_values"));
-    chart.draw(view, options);
+
+.ClientSearchBox1{
+border-bottom:3px solid black;
+margin-right: 200px;
+width: 50%;
+/* box-shadow: 0px 0px 20px 10px rgba(0.2,0,0,0.4); */
 }
+.count {
+margin-left: 1990px;
+}
+.clientTable{
+margin-left: 500px;
+}
+.gotowrite{
+width: 152px;
+margin-left: 820px;
+margin-top: 9px;
+}
+.paging{text-align: center; margin-top: 30px; margin-right:300px;}
+.page{border: 1px solid black; background: black;
+   	   color: white; padding: 3px 10px 3px 10px; border-radius: 6px;font-weight: bold;}
+.pre_page, .next_page{border: 1px solid rgb(244, 244, 244); background: rgb(244, 244, 244);
+   	   color: #3e3e3e; padding: 3px 10px 3px 10px; border-radius: 6px;font-weight: bold;    display: inline-block;}
+</style>
+<script type="text/javascript" src="resources/js/jquery-3.4.1.min.js"></script>
+<script type="text/javascript">
+function popup(){
+    var url = "clientListPop.do";
+    var name = "popup test";
+    var option = "width = 500, height = 500, top = 100, left = 200, location = no"
+    window.open(url, name, option);
+}
+</script>
 
-  </script>
 
-
-<style>
-    table {
-    width: 100%;
-    border-top: 1px solid #444444;
-    border-collapse: collapse;
-  }
-  th, td {
-    border-bottom: 1px solid #444444;
-    padding: 10px;
-  }
-    </style>
 </head>
 <body>
-<div id="search">
-1. 리포트 개요
-</div>
-   <table class="table table-bordered">
+<p style="font-size: 20pt; padding-top:50px; color:#373737; text-align:center;">프로젝트 목록</p>
+<body>
+<!-- 검색창시작 -->
+	<div align="center">
+			<div class="ClientSearchBox1" style="height: 130px;">
+			<form action="selectRivalSearchList.do"method="get">
+			
+                <a class="ui large black label">경쟁사 검색</a>&ensp;
+					<div class="ui input"><input type="text" name="search" style="width:340px; height:30px;"></div>&ensp;
+			 <br><br>
+			   <a class="ui large black label">분류</a>&emsp;&emsp;
+           <input type="radio" name="searchtype" value="" ><label>전체</label>&emsp;&emsp; 
+             <input type="radio" name="searchtype" value="rival_company_name"><label>&ensp;제목</label>&emsp;&emsp;
+               <input type="radio" name="searchtype" value="rival_ceo"><label>&ensp;고객명</label>&emsp;&emsp; 
+               <input type="radio" name="searchtype" value="rival_kipo_no_list"><label>&ensp;특허고객번호</label>&emsp;&emsp;&emsp;
+			
+				
+					<div class="ui buttons"><button class="ui small black button" type="submit">검색</button></div> 
+			</form>
+				<div class="gotowrite"><button class="ui middle black button"  onclick="location.href='javascript:popup()'">
+		<i class="edit outline icon"></i>프로젝트 등록</button></div>
+			</div>
+		</div>  
+<div class = "count">총:${listCount}</div>
+<table class="ui celled table">
   <thead>
-    <tr>
-      <th scope="col">고객명</th>
-      <th scope="col">고객번호</th>
-      <th scope="col">가입일자</th>
-      <th scope="col">종료일자</th>
-    
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td>주식회사OOO</td>
-      <td>C201001</td>
-      <td>2020.07.08</td>
-      <td>2020.07.30</td>
-     
-    </tr>
-    <tr>
-      <th scope="row">생성일자</th>
-      <th>조사기간</th>
-      <th>전월 신규 출원/등록</th>
-      <th>누적 전체 출원/등록</th>
-     
-    </tr>
-     <tr>
-      <td>2020.11.05</td>
-      <td>2020.07.07~2020.09.09</td>
-      <td>4건 /5건</td>
-      <td>234건 /112건</td>
-     
-    </tr>
-<tr>
-      <th scope="row">경쟁사</th>
+    <tr><th>번호</th>
+    <th>고객명</th>
+    <th>조사기간</th>
+    <th>프로젝트 상태</th>
+    <th>전월 출원/등록</th>
+      <th>경쟁사</th>
       <th>특허고객번호</th>
-      <th>관심분야 상표분류</th>
-      <th>등록상태</th>
-     
-    </tr>
-    <tr>
-      <td>3개사</td>
-      <td>6건</td>
-      <td>11건</td>
-      <td>[유지]</td>
-     
-    </tr>
-  
-</table>
-<div id="search">
-2. 상표동향
-</div>
-<div id="search">
-1-A 한국 특허청 상표 출원/등록현황
-</div>
-   <table class="table table-bordered">
-  <thead>
-    <tr>
-      <th scope="col">구분</th>
-      <th scope="col">3개월 소계</th>
-      <th scope="col">08월</th>
-      <th scope="col">09월</th>
-      <th scope="col">10월 1)</th>
-      <th scope="col">전체 누적</th>
-
-    </tr>
-  </thead>
+      <th>관심분류</th>
+      <th>등록</th>
+      <th>생성일자</th>
+      <th>링크</th>
+      
+  </tr></thead>
   <tbody>
     <tr>
-      <td>출원</td>
-      <td>00,000</td>
-      <td>0,000</td>
-      <td>0,000</td>
-      <td>0,000</td>
-      <td>000,000건</td>
-     
-    </tr>
-     <tr>
-      <td>등록</td>
-      <td>00,000</td>
-      <td>0,000</td>
-      <td>0,000</td>
-      <td>0,000</td>
-      <td>000,000건</td>
-     
-     
-    </tr>
+   
+      <td data-label="Name">20A-012</td>
+      <td data-label="Age">주식회사</td>
+      <td data-label="Job">2020.00.00 ~ 2020.00.00</td>
+      <td data-label="Job">[신규등록]</td>
+       <td data-label="Job">30/12</td>
+       <td data-label="Job">1</td>
+       <td data-label="Job">2</td>
+       <td data-label="Job">1</td>
+       <td data-label="Job"></td>
+       <td data-label="Job">2020.09.20</td>
+       <td data-label="Job">-></td>
+    
+        
+   </tr>
 
-  
+  </tbody>
 </table>
-<div id="columnchart_values" style="width: 900px; height: 300px;"></div>
 
 </body>
 </html>

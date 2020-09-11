@@ -174,6 +174,12 @@ public class ClientSerivceImpl implements ClientService{
 		 
 	}
 
+	@Override
+	public ClientVO selectClientDetailForReport(int com_seq) {
+		// TODO Auto-generated method stub
+		return mybatisSession.selectOne("selectClientDetailForReport", com_seq);
+	}
+
 
 
 /*	@Override

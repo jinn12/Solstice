@@ -59,6 +59,8 @@ List<ClientVO> selectClientForRivaList1();  //해당 고객의 라이벌 리스�
 
 void deleteDetailClientOfRival(ClientVO client);
 
+ClientVO selectClientDetailForReport(int com_seq);
+
 
 
 

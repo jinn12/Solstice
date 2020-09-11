@@ -1,5 +1,7 @@
 package com.solstice.users.service;
 
+import java.util.HashMap;
+
 public interface UsersService {
 
 	
@@ -12,6 +14,8 @@ int insertUsers(UsersVO users);
 UsersVO moveMyPageEdit(String email);
 
 int updateMyPage(UsersVO users);
+
+
 
 
 
