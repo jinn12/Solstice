@@ -4,7 +4,8 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<title>첫화면</title>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,Chrome=1" /> 
+<title>Solstice 상표권 침해권리 지원서비스</title>
 <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css">
 <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css"/>
 </head>
@@ -35,7 +36,7 @@ animation: fadein 500ms;
 /* .btn_jump.admin{border:1px solid #568DA6}
 .btn_jump.user{border:1px solid #F28496;} */
 .btn_jump.admin:hover{background: #568DA6; color: #ffffff;}
-.btn_jump.user:hover{background: #F28496; color: #ffffff;}
+.btn_jump.user:hover{background: #f28484; color: #ffffff;}
 .btn_jump:hover i{display: inline; color: #ffffff;}
 
 @keyframes fadein {

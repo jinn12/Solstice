@@ -6,6 +6,7 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,Chrome=1" /> 
 <title>로그인</title>
 <!-- 시맨틱유아이 cdn -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
@@ -85,9 +86,6 @@ body{height: auto;}
 
 </head>
 <body>
-
-     <!-- 상단 메뉴 바 -->
-     
      <!-- 로그인 폼 CSS -->
      <div id="loginSection">
      <div class="title">
@@ -123,13 +121,6 @@ body{height: auto;}
 
         </form>  
         </div>
- 
- 
-      <!-- 하단 -->
-
-
- 
-      <!-- 하단 -->
 
   </body>
 </html>

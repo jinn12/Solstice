@@ -18,13 +18,13 @@
 	 var com_seq = $("#Name1").text();
     var kipo_no1 = $("#Job1").text(); //input 태그에서 value의 역할을 text()   Name1
      if (kipo_no1.indexOf(',') != -1) {
-         var items = kipo_no1.split(',');
+         var items = kipo_no1.trim().split(',');
          var itemTag = "";
          var item = "";
          for (var i = 0; i < items.length; i++) {
              item = items[i];
              if (i != 0) {
-                 itemTag += "<span class='kipo_no'>," + item + "</span>";
+                 itemTag += "<span class='kipo_no'>, " + item + "</span>";
              } else {
                  itemTag += "<span class='kipo_no'>" + item + "</span>";
              }
@@ -41,46 +41,18 @@
 	
 	
  </script>
- <style>
-
-  
- a:link { color: black; text-decoration: none;}
-
-
-.ClientSearchBox1{
-border-bottom:3px solid black;
-margin-right: 200px;
-width: 50%;
-/* box-shadow: 0px 0px 20px 10px rgba(0.2,0,0,0.4); */
-}
-.count{
-margin-left:1970px;
-}
-.clientTable{
-margin-left: 500px;
-}
-.gotowrite{
-width: 152px;
-margin-left: 820px;
-margin-top: 9px;
-}
-.paging{text-align: center; margin-top: 30px; margin-right:300px;}
-.page{border: 1px solid black; background: black;
-   	   color: white; padding: 3px 10px 3px 10px; border-radius: 6px;font-weight: bold;}
-.pre_page, .next_page{border: 1px solid rgb(244, 244, 244); background: rgb(244, 244, 244);
-   	   color: #3e3e3e; padding: 3px 10px 3px 10px; border-radius: 6px;font-weight: bold;    display: inline-block;}
-</style>
-
+ 
 </head>
 <body>
-<p style="font-size: 20pt; padding-top:50px; color:#373737; text-align:center;">고객의 상표 목록</p>
-<body>
+<!-- 제목 -->
+<div class="title_area">
+<span>고객정보관리</span><i class="fas fa-caret-right"></i><span>고객관리</span><i class="fas fa-caret-right"></i><span>고객의 상표목록</span>
+</div>
 
- <div class= "count">총:${listCount}</div>
 <!-- 탭메뉴 -->
 
-		
-			<table class="ui celled table">
+<div class="table_area">		
+<table class="table">
 
   <thead>
     <tr>
@@ -120,10 +92,10 @@ margin-top: 9px;
   </tbody>
 </table>
 			
-			
+<br><br>		
 			
 
-<table class="ui celled table">
+<table class="table">
 
   <thead>
     <tr><th>상표번호</th>
@@ -148,7 +120,7 @@ margin-top: 9px;
     <tr>
    
       <td data-label="Name">${tm.tm_seq}</td>
-      <td data-label="Job"><a href="${ ndt }"><img src=${tm.image_url} style="height:130px; width:300px;"></a></td> 
+      <td data-label="Job"><a href="${ ndt }"><img src='${tm.image_url}'></a></td> 
       <td data-label="Age"><a href="${ ndt }">${tm.appl_no }</a></td>
       <td data-label="Job">${tm.applicant }</td>
     <td data-label="Job">${tm.prod_cate_code_list }</td>
@@ -166,13 +138,32 @@ margin-top: 9px;
   </tbody>
 </table>
 		
+<div class="table_footer">
+<div class="total_count"><span>전체 : <strong>${listCount}</strong>건</span></div>
+	<!-- //페이징 -->
+	<div class ="pagination" >
+		<!-- 맨 처음 페이지 -->
+		<c:if test="${requestScope.currentPage le 1 }"><a class="page-prev page-link"><i class="fas fa-chevron-left"></i></a></c:if>
+		<c:if test="${requestScope.currentPage gt 1 }"><a href="clientOfTradeMark.do?" class="page-prev page-link"><i class="fas fa-chevron-left"></i></a></c:if>
 		
+		<c:forEach var="p" begin="${requestScope.startPage }" end="${requestScope.endPage }" step="1">
+   		<c:if test="${p eq requestScope.currentPage }">      
+      	<a class="page-item active"><span class="page-link">${ p }</span></a>
+   		</c:if>
+   		<c:if test="${p ne requestScope.currentPage }"><a href="clientOfTradeMark.do?page=${ p }">${ p }</a></c:if>
+		</c:forEach>
 
+		<!-- 맨 마지막페이지 -->
+		<c:if test="${currentPage ge maxPage }"><a class="page-next page-link"><i class="fas fa-chevron-right"></i></a></c:if>
+		<c:if test="${currentPage lt maxPage }"><a class="page-next page-link" href="clientOfTradeMark.do?page=${requestScope.maxPage }"><i class="fas fa-chevron-right"></i></a></c:if>  
+	</div>
+</div>		
+</div>
 
 
 
 <!-- 맨 처음 페이지 -->
-<div class ="paging" >
+<%-- <div class ="paging" >
 <c:if test="${requestScope.currentPage le 1 }"><p class="pre_page"><<</p></c:if>
 <c:if test="${requestScope.currentPage gt 1 }"><a href="clientOfTradeMark.do"><p class="pre_page"><<</p></a></c:if>
 
@@ -187,7 +178,7 @@ margin-top: 9px;
 <c:if test="${currentPage ge maxPage }"><p class="next_page">>></p></c:if>
 <c:if test="${currentPage lt maxPage }"><a class="next_page" href="clientOfTradeMark.do?page=${requestScope.maxPage }">>></a></c:if>  
 
-</div>
+</div> --%>
 <!-- //페이징 -->
 </body>
 </html>

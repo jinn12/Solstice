@@ -4,12 +4,15 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<title>Insert title here</title>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,Chrome=1" /> 
+<title>회원가입</title>
 </head>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/semantic-ui@2.4.2/dist/semantic.min.js"></script>
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/semantic-ui@2.4.2/dist/semantic.min.css">
-<script type="text/javascript" src="resources/js/jquery-3.4.1.min.js"></script>
+<link rel="stylesheet" href="css/layout.css">
+<link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/latest/css/bootstrap.min.css">    
+<link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css"/>
+<script src="//code.jquery.com/jquery.min.js"></script>
+<script src="//netdna.bootstrapcdn.com/bootstrap/latest/js/bootstrap.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.bundle.min.js"></script>
  <script type="text/javascript">
  $(function(){
 	 
@@ -136,156 +139,115 @@
 
  </script>
 <style>
-.wrapEnrollPage{
-	background-color: #fff;
-	margin-left: 25%;
-	margin-right: 25%;
-	overflow:hidden;
-	min-height: 100%;
-	margin-bottom: 200px;
-}
-
-.enrollSection{
-	align:center;
-	background: #f6f6f6;
-	width: 100%;
-	height: 350px;
-	margin-top: 40px;
-}
-
-
-.enrollTable{
-
-	width: 90%;
-	height: 90%;
-	margin-left: 12%;
-	padding-top: 20px;
-}
-
-.enrollTable tr{
-
-	line-height: 58px;
-}
-
-.enrollTable th{
-	 width:15%;
-	 text-align: left;
-}
-
-.enrollTable td{
-	width:85%;
-	font-size: 10pt;
-}
-
-
-.enrolldiv{
-	line-height: 3px;
-	color: red;
-	font-size: 9pt;
-	text-indent: 5pt;
-	margin-top: 10px;
-}
-
-.termsSection{
-
-	align:center;
-	background: #f6f6f6;
-	width: 100%;
-	height: 170px;
-	margin-top: 15px;
-	text-align: left;
-}
-
-.termsCheck{
-	margin-top: -20px;
-	padding-left: 50px;
-	line-height: 30px;
-}
-
-.termsCheckLabel{
-	color:#aaa;
-	font-size: 9pt;
-	vertical-align: 2px;
-}
-
-
-/* 회원가입 완료 */
-
 .wrapEnrollSuccessPage{
-	background-color: #fff;
+	background-color: #fff; 
 	margin-left: 25%;
 	margin-right: 25%;
 	margin-top:140px; /* 상단바 높이만큼 수정 */
 	overflow:hidden;
 	min-height: 100%;
 }
+.title{
+	text-align: center;
+	margin-bottom: 40px;
+}
+.table_area{padding: 60px 20px;/* box-shadow:6px 0px 20px 0px #f2f2f2;  */ background: #f7fbff;}
+.table_area table{width:90%; margin: 0 auto;background: #f7fbff;}
+.table_area table.table_detail th{background: none; text-align: right;}
+.table_area table.table_detail tr{height: 60px;}
+.btn_group{text-align: center; float: none; clear: both;}
 
-</style>
+/* 회원가입 완료 */
+.wrapEnrollPage{
+	background-color: #fff;
+	/* margin-left: 25%;
+	margin-right: 25%; */
+	margin:0 auto;   
+	width:880px;
+	overflow:hidden;
+	min-height: 100%;
+	margin-top: 60px;
+}
+
+</style> 
 <body>
 <!-- 회원가입 페이지 시작 -->
-<div class="wrapEnrollPage">
 
-	<p style="font-size: 20pt; padding-top:50px; color:#373737; text-align:center;">회원가입</p>
+<div class="wrapEnrollPage">
+	<div class="title">
+     <span style="font-weight: bold; font-size: 42px; /* background: #005bab; */ letter-spacing: -0.5px; padding:12px 34px; color: #005bab; display: block;">Solstice</span>
+     <span style="font-size: 18px; color: #545454; letter-spacing: -1px; margin-top: 10px;  font-weight: bold;">상표권 침해권리 지원서비스</span>
+     <span style="font-size: 18px; border-left: 2px solid #005bab; text-align: left; color: #005bab; padding-left: 12px; margin-left: 12px;font-weight: bold;letter-spacing: -1px;">회원가입</span>
+     </div> 
 	
 	<!-- 회원정보입력섹션 시작! -->
-	
-	<div class="enrollSection">
 	<form action="insertUsers.do" method="post">
-			<input type="hidden" name="usertype" value="USER">
-		<table class="enrollTable">
-		
+	<div class="table_area">
+	<input type="hidden" name="usertype" value="USER">
+		<table class="table table_detail noborder">
+			<colgroup>
+				<col width="20%"></col>
+				<col width="*"></col>
+				<col width="15%"></col>
+			</colgroup>
 			<tr>
-				<th>이메일</th>
-				<td><div class="ui input" style="width:350px;"><input type="email" id="user_email" name="user_email" placeholder="예: sosltice@gmail.com" required></div>&emsp;
-									<input type="button" class="mainBtn" value="중복확인" id="checkEmail">
-									<div class="enrolldiv" id="divEmail"></div>	
+				<th class="required">이메일</th>
+				<td><input type="email" class="form-control" id="user_email" name="user_email" placeholder="예: sosltice@gmail.com" required>
+					<div class="enrolldiv" id="divEmail"></div>
 				</td>
+				<td><button type="button" class="btn" id="checkEmail">중복확인</button>	</td>
 			</tr>
 			
 			
 			<tr>
-				<th>이름</th>
-				<td><div class="ui input" style="width:350px;"><input type="text" id="user_name" name="user_name" placeholder="한글만 가능(최대 5자)" required></div>
+				<th class="required">이름</th>
+				<td><input type="text" class="form-control" id="user_name" name="user_name" placeholder="한글만 가능(최대 5자)" required>
 					<div class="enrolldiv" id="divusername"></div>
 				</td>
+				<td></td>
 			</tr>
 			
 				
 			<tr>
 				<th>회원구분</th>
-				<td><input type="radio" name="user_auth" value="ADMIN" checked="checked" required><label>&ensp;관리자</label>&emsp;&emsp;&emsp;
-					<input type="radio" name="user_auth" value="USER" required><label>&ensp;분석가</label>
+				<td><input type="radio" name="user_auth" value="ADMIN" checked="checked" id="radio1"><label for="radio1">관리자</label>
+					<input type="radio" name="user_auth" value="USER" id="radio2"><label for="radio2">분석가</label>
 				</td>
+				<td></td>
 			</tr>
 			
 		
 			<tr>
-				<th>비밀번호</th>
-				<td><div class="ui input" style="width:350px;"><input type="password" id="user_pw" name="user_pw" placeholder="영문/숫자/특수문자 각 1개 이상 포함하여 8-20자" required></div>
+				<th class="required">비밀번호</th>
+				<td><input type="password" class="form-control" id="user_pw" name="user_pw" placeholder="영문/숫자/특수문자 각 1개 이상 포함하여 8-20자" required>
 					<div class="enrolldiv" id="divpwd"></div>
 				</td>
+				<td></td>
 			</tr>
 			
 			<tr>
-				<th>비밀번호 확인</th>
-				<td><div class="ui input" style="width:350px;"><input type="password" id="user_pw2" placeholder="작성한 비밀번호와 동일하게 입력해주세요." required></div>
+				<th class="required">비밀번호 확인</th>
+				<td><input type="password" class="form-control" id="user_pw2" placeholder="작성한 비밀번호와 동일하게 입력해주세요." required>
 					<div class="enrolldiv" id="divpwd2"></div>
 				</td>
+				<td></td>
 			</tr>
 			
 		</table>
 		
 	</div>
-	
+	</form>
 	<!-- 회원정보입력섹션 끝! -->
 	
-	
-	<br><br><br>
-	<div align="center">
-		<input type="submit" class="ui green button" value="가입하기" id="btnsub"></a> &nbsp;
-		<input type="reset" class="ui button" value="다시작성"> &nbsp;
+	<div class="btn_group">
+	<button class="btn" type="reset">
+	<i class="far fa-redo"></i> 다시작성
+	</button>
+	<button class="btn btn-submit" type="submit">
+	<i class="far fa-check"></i> 가입하기
+	</button>
 	</div>
-	</form>
+	
 </div>
 
 <!-- 회원가입 페이지 끝 -->

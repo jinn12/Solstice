@@ -6,6 +6,7 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,Chrome=1" /> 
 <title>로그인</title>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/semantic-ui@2.4.2/dist/semantic.min.js"></script>
@@ -96,7 +97,7 @@ body{height: auto;}
      <div class="title">
      <span style="font-weight: bold; font-size: 42px; /* background: #005bab; */ letter-spacing: -0.5px; padding:12px 34px; color: #005bab; display: block; margin-bottom: 24px">Solstice</span>
      <span style="font-size: 18px; color: #545454; letter-spacing: -1px; margin-top: 10px;  font-weight: bold;">상표권 침해권리 지원서비스</span>
-     <span style="font-size: 18px; border-left: 2px solid #F28496; text-align: left; color: #F28496; padding-left: 12px; margin-left: 12px;font-weight: bold;letter-spacing: -1px;">분석가 시스템</span>
+     <span style="font-size: 18px; border-left: 2px solid #f28484; text-align: left; color: #f28484; padding-left: 12px; margin-left: 12px;font-weight: bold;letter-spacing: -1px;">분석가 시스템</span>
      </div> 
      
      <div class="warning">

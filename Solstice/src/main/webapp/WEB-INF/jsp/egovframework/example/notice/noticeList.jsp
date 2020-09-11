@@ -8,12 +8,8 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>공지사항</title>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/semantic-ui@2.4.2/dist/semantic.min.js"></script>
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/semantic-ui@2.4.2/dist/semantic.min.css">
 </head>
 <body>
-<div id="content">
 <!-- 제목 -->
 <div class="title_area">
 <span>기본정보</span><i class="fas fa-caret-right"></i><span>공지사항</span>
@@ -111,8 +107,5 @@
 <h6><i class="fas fa-info-circle"></i>&nbsp;도움말</h6>
 [1] 공지사항은 관리자만 글을 쓰고, 분석원이 참고하는 기능입니다.
 </div>
-</div>
-
-
 </body>
 </html>

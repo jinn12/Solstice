@@ -40,7 +40,7 @@
 		
 		<li><a class="first_menu"><i class="fas fa-list"></i>기본정보</a>
 			<ul class="second_menu">
-				<li class="active"><a href="noticeList.do"><i class="fas fa-caret-right"></i>공지사항</a></li> 
+				<li id="noticeList"><a href="noticeList.do"><i class="fas fa-caret-right"></i>공지사항</a></li> 
 				<li><a href="requestList.do"><i class="fas fa-caret-right"></i>전산업무요청</a></li>
 			</ul>
 		</li> 

@@ -8,23 +8,18 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>해당 고객이 보유한 상표 목록</title>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/semantic-ui@2.4.2/dist/semantic.min.js"></script>
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/semantic-ui@2.4.2/dist/semantic.min.css">
-<script type="text/javascript" src="resources/js/jquery-3.4.1.min.js"></script>
- <script type="text/javascript">
-
+<script type="text/javascript">
  $(function () {
 	 var com_seq = $("#Name1").text();
     var kipo_no1 = $("#Job1").text(); //input 태그에서 value의 역할을 text()   Name1
      if (kipo_no1.indexOf(',') != -1) {
-         var items = kipo_no1.split(',');
+         var items = kipo_no1.trim().split(',');
          var itemTag = "";
          var item = "";
          for (var i = 0; i < items.length; i++) {
              item = items[i];
              if (i != 0) {
-                 itemTag += "<span class='kipo_no'>," + item + "</span>";
+                 itemTag += "<span class='kipo_no'>, " + item + "</span>";
              } else {
                  itemTag += "<span class='kipo_no'>" + item + "</span>";
              }
@@ -40,47 +35,22 @@
 
 	
  </script>
- <style>
-
-  
- a:link { color: black; text-decoration: none;}
-
-
-.ClientSearchBox1{
-border-bottom:3px solid black;
-margin-right: 200px;
-width: 50%;
-/* box-shadow: 0px 0px 20px 10px rgba(0.2,0,0,0.4); */
-}
-.count{
-margin-left:1970px;
-}
-.clientTable{
-margin-left: 500px;
-}
-.gotowrite{
-width: 152px;
-margin-left: 820px;
-margin-top: 9px;
-}
-.paging{text-align: center; margin-top: 30px; margin-right:300px;}
-.page{border: 1px solid black; background: black;
-   	   color: white; padding: 3px 10px 3px 10px; border-radius: 6px;font-weight: bold;}
-.pre_page, .next_page{border: 1px solid rgb(244, 244, 244); background: rgb(244, 244, 244);
-   	   color: #3e3e3e; padding: 3px 10px 3px 10px; border-radius: 6px;font-weight: bold;    display: inline-block;}
-</style>
-
 </head>
-<body>
-<p style="font-size: 20pt; padding-top:50px; color:#373737; text-align:center;">고객의 상표 목록</p>
-<body>
 
- <div class= "count">총:${listCount}</div>
+<body>
+<div class="title_area">
+<span>고객정보관리</span><i class="fas fa-caret-right"></i><span>고객관리</span>
+</div>
 <!-- 탭메뉴 -->
-
-		
-			<table class="ui celled table">
-
+<div class="tab_area">
+<ul>
+	<li><a onclick="location.href='clientDetail.do?com_seq=${client.com_seq}'">기본정보</a></li>
+	<li><a onclick="location.href='clientForRiva.do?com_seq=${client.com_seq}'">경쟁사(${rivaCount})</a></li>
+	<li class="active"><a>상표(${listCount})</a></li>
+</ul>
+</div>
+<div class= "table_area">
+<table class="table">
   <thead>
     <tr>
     <th>고객 일련 번호</th>
@@ -89,13 +59,9 @@ margin-top: 9px;
     <th>고객 대표자명</th>
     <th>고객 법인 등록번호</th>
     <th>특허고객번호 목록</th>
-    
-
-    
-    
-      <!-- <th>삭제</th> -->
-      
-  </tr></thead>
+    <!-- <th>삭제</th> -->
+  	</tr>
+  </thead>
   <tbody>
    
   <c:url var="ndt" value="clientDetail.do">
@@ -111,9 +77,8 @@ margin-top: 9px;
    ${client.kipo_no_list}
   </td> 
    </tr>
-
   </tbody>
 </table>
-
+</div>
 </body>
 </html>

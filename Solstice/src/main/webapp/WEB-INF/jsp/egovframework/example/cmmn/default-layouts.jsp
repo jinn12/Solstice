@@ -4,6 +4,7 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,Chrome=1" /> 
 <!-- <link rel="stylesheet" type="text/css" href="/resource/css/bootstrap.css">   -->  
 
 <!-- Optional theme -->
@@ -15,9 +16,11 @@
 <link rel="stylesheet" href="css/layout.css">
 <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/latest/css/bootstrap.min.css">    
 <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css"/>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/semantic-ui@2.4.2/dist/semantic.min.css">
 <script src="//code.jquery.com/jquery.min.js"></script>
 <script src="//netdna.bootstrapcdn.com/bootstrap/latest/js/bootstrap.min.js"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.bundle.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/semantic-ui@2.4.2/dist/semantic.min.js"></script>
 
 
 </head>
@@ -29,7 +32,9 @@
 	<!--메뉴 시작-->
 	<tiles:insertAttribute name="tiles_left"/>
 	<div id="wrap">
+	<div id="content">
 	<tiles:insertAttribute name="tiles_content"/>
+	</div>
 	</div>
 	<!--푸터시작-->
 	<tiles:insertAttribute name="tiles_footer"/>

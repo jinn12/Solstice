@@ -8,26 +8,22 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>해당 고객이 보유한 상표 목록</title>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/semantic-ui@2.4.2/dist/semantic.min.js"></script>
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/semantic-ui@2.4.2/dist/semantic.min.css">
-<script type="text/javascript" src="resources/js/jquery-3.4.1.min.js"></script>
  <script type="text/javascript">
 
  $(function () {
 	 var rival_seq = $("#Name1").text();
     var kipo_no1 = $("#Job1").text(); //input 태그에서 value의 역할을 text()   Name1
      if (kipo_no1.indexOf(',') != -1) {
-         var items = kipo_no1.split(',');
+         var items = kipo_no1.trim().split(',');
          var itemTag = "";
          var item = "";
          for (var i = 0; i < items.length; i++) {
              item = items[i];
-             if (i != 0) {
-                 itemTag += "<span class='kipo_no'>," + item + "</span>";
+            if (i != 0) {
+                 itemTag += "<span class='kipo_no'>, " + item + "</span>";
              } else {
                  itemTag += "<span class='kipo_no'>" + item + "</span>";
-             }
+             } 
          }
          $("#Job1").html(itemTag);
      }
@@ -38,49 +34,16 @@
      });
  });
  </script>
- <style>
-
-  
- a:link { color: black; text-decoration: none;}
-
-
-.ClientSearchBox1{
-border-bottom:3px solid black;
-margin-right: 200px;
-width: 50%;
-/* box-shadow: 0px 0px 20px 10px rgba(0.2,0,0,0.4); */
-}
-.help{
-border-top: 2px solid;
-}
-.count{
-margin-left:1970px;
-}
-.clientTable{
-margin-left: 500px;
-}
-.gotowrite{
-width: 152px;
-margin-left: 820px;
-margin-top: 9px;
-}
-.paging{text-align: center; margin-top: 30px; margin-right:300px;}
-.page{border: 1px solid black; background: black;
-   	   color: white; padding: 3px 10px 3px 10px; border-radius: 6px;font-weight: bold;}
-.pre_page, .next_page{border: 1px solid rgb(244, 244, 244); background: rgb(244, 244, 244);
-   	   color: #3e3e3e; padding: 3px 10px 3px 10px; border-radius: 6px;font-weight: bold;    display: inline-block;}
-</style>
-
 </head>
-<body>
-<p style="font-size: 20pt; padding-top:50px; color:#373737; text-align:center;">경쟁사의 상표 목록</p>
-<body>
+<!-- 제목 -->
+<div class="title_area">
+<span>고객정보관리</span><i class="fas fa-caret-right"></i><span>경쟁사관리</span><i class="fas fa-caret-right"></i><span>상표목록</span>
+</div>
 
- <div class= "count">총:${listCount}</div>
 <!-- 탭메뉴 -->
 
-		
-			<table class="ui celled table">
+<div class="table_area">		
+<table class="table">
 
   <thead>
     <tr><th>경쟁사 번호</th>
@@ -116,10 +79,9 @@ margin-top: 9px;
 </c:forEach>
   </tbody>
 </table>
-			
-			
 
-<table class="ui celled table">
+<br><br>   
+<table class="table">
 
   <thead>
     <tr><th>상표번호</th>
@@ -144,7 +106,7 @@ margin-top: 9px;
     <tr>
    
       <td data-label="Name">${tm.tm_seq}</td>
-      <td data-label="Job"><a href="${ ndt }"><img src=${tm.image_url} style="height:130px; width:300px;"></a></td> 
+      <td data-label="Job"><a href="${ ndt }"><img src='${tm.image_url}'></a></td> 
       <td data-label="Age"><a href="${ ndt }">${tm.appl_no }</a></td>
       <td data-label="Job">${tm.applicant }</td>
     <td data-label="Job">${tm.prod_cate_code_list }</td>
@@ -161,13 +123,41 @@ margin-top: 9px;
  </c:forEach>
   </tbody>
 </table>
+<div class="table_footer">
+<div class="total_count"><span>전체 : <strong>${listCount}</strong>건</span></div>
+	<!-- //페이징 -->
+	<div class ="pagination" >
+		<!-- 맨 처음 페이지 -->
+		<c:if test="${requestScope.currentPage le 1 }"><a class="page-prev page-link"><i class="fas fa-chevron-left"></i></a></c:if>
+		<c:if test="${requestScope.currentPage gt 1 }"><a href="rivalForTmList.do?" class="page-prev page-link"><i class="fas fa-chevron-left"></i></a></c:if>
+		
+		<c:forEach var="p" begin="${requestScope.startPage }" end="${requestScope.endPage }" step="1">
+   		<c:if test="${p eq requestScope.currentPage }">      
+      	<a class="page-item active"><span class="page-link">${ p }</span></a>
+   		</c:if>
+   		<c:if test="${p ne requestScope.currentPage }"><a href="rivalForTmList.do?page=${ p }&search=${search}&searchtype=${searchtype}">${ p }</a></c:if>
+		</c:forEach>
+
+		<!-- 맨 마지막페이지 -->
+		<c:if test="${currentPage ge maxPage }"><a class="page-next page-link"><i class="fas fa-chevron-right"></i></a></c:if>
+		<c:if test="${currentPage lt maxPage }"><a class="page-next page-link" href="rivalForTmList.do?page=${requestScope.maxPage }&search=${search}&searchtype=${searchtype}"><i class="fas fa-chevron-right"></i></a></c:if>  
+	</div>
+</div>
+
+</div>		
+<div class="tip_area">
+<h6><i class="fas fa-info-circle"></i>&nbsp;도움말</h6>
+[1] 고객이 보유한 상표정보 입니다.
+</div>			
+
+
 		
 		
 
 
 
 
-<!-- 맨 처음 페이지 -->
+<%-- <!-- 맨 처음 페이지 -->
 <div class ="paging" >
 <c:if test="${requestScope.currentPage le 1 }"><p class="pre_page"><<</p></c:if>
 <c:if test="${requestScope.currentPage gt 1 }"><a href="rivalForTmList.do?"><p class="pre_page"><<</p></a></c:if>
@@ -184,13 +174,13 @@ margin-top: 9px;
 <c:if test="${currentPage lt maxPage }"><a class="next_page" href="rivalForTmList.do?page=${requestScope.maxPage }&search=${search}&searchtype=${searchtype}">>></a></c:if>  
 
 </div>
-<!-- //페이징 -->
+<!-- //페이징 --> --%>
 
 </body>
-<div class = "help">
+<!-- <div class = "help">
 [도움말]
 <div>
 [1] 고객이 보유한 상표정보 입니다.
 </div>
-</div>
+</div> -->
 </html>

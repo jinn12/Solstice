@@ -8,7 +8,7 @@
 <!-- <title>Insert title here</title> -->
 </head>
 <style>
-.userinfo{border: none;color: #686868; padding-left: 8px;background: none;}
+.userinfo{border: none;color: #686868; padding-left: 8px;background: none; font-size: 14px;}
 .userinfo:focus{border: none;}
 .topR{position: absolute; right: 40px; top: 0;}
 </style>
@@ -19,7 +19,7 @@
 </a>
 <span style="font-size: 16px; color: #686868; letter-spacing: -1px; padding-left: 12px;">상표권 침해권리 지원서비스</span>
 <c:if test="${loginUser.user_auth == 'USER' }">
-<span style="font-size: 16px; border-left: 1px solid #F28496; text-align: left; color: #F28496; padding-left: 12px; margin-left: 12px;/* font-weight: bold; */letter-spacing: -1px;">분석가 시스템</span>
+<span style="font-size: 16px; border-left: 1px solid #f28484; text-align: left; color: #f28484; padding-left: 12px; margin-left: 12px;/* font-weight: bold; */letter-spacing: -1px;">분석가 시스템</span>
 </c:if>
 <c:if test="${loginUser.user_auth == 'ADMIN' }">
 <span style="font-size: 16px; border-left: 1px solid #568DA6; text-align: left; color: #568DA6; padding-left: 12px; margin-left: 12px;/* font-weight: bold; */letter-spacing: -1px;">관리자 시스템</span>
